@@ -1,20 +1,44 @@
-// app/components/Navbar.tsx
 "use client";
+// import Image from "next/image";
 
 import { useState } from "react";
 import Link from "next/link";
-// import clsx from "clsx"; //
+// import clsx from "clsx"; // Luego para condicionales en cadena
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-green-600 text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-bold hover:text-gray-200">
-          MiApp
-        </Link>
+    <nav className="bg-green-400text-white shadow-md">
+      <div className="max-w-9xl px-6 py-4 flex items-center justify-between">
+        <div className="flex space-x-5 text-lg font-500 hover:text-gray-200">
+          <div className="flex items-center gap-2">
+            <h1>Languages</h1>
+            <img
+              className="h-4"
+              src="./navbar-images/play-button-icon.png"
+              alt="open box"
+            />
+          </div>
+
+          <div className="flex items-center">
+            <img
+              className="h-10"
+              src="./navbar-images/uk-language.png"
+              alt="eng"
+            />
+            <h2>English</h2>
+          </div>
+
+          <div className="flex items-center">
+            <img
+              className="h-10"
+              src="./navbar-images/spanish-language-icon.png"
+              alt="esp"
+            />
+            <h2>Spanish</h2>
+          </div>
+        </div>
 
         {/* Botón Hamburguesa */}
         <button
@@ -31,19 +55,19 @@ const Navbar = () => {
             href="/"
             className="hover:text-gray-300 transition-colors duration-200"
           >
-            Inicio
+            Home
           </Link>
           <Link
             href="/about"
             className="hover:text-gray-300 transition-colors duration-200"
           >
-            Sobre mí
+            About us
           </Link>
           <Link
             href="/contact"
             className="hover:text-gray-300 transition-colors duration-200"
           >
-            Contacto
+            Contact
           </Link>
         </div>
       </div>
