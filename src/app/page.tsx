@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { MapPin, StepForward } from "lucide-react";
 
 // import { url } from "inspector";
 
@@ -14,7 +15,11 @@ export default function Home() {
       }}
     >
       {/* Logo Box  */}
-      <div className="z-80 relative -start-4 top-15 w-47 h-47 md:-top-8 md:left-1 md:h-60 md:w-60 ">
+      <div
+        className="
+        z-80 relative -start-4 top-15 w-47 h-47
+        md:-top-8 md:left-1 md:h-60 md:w-60"
+      >
         <Image
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="Lively Place Logo"
@@ -27,16 +32,17 @@ export default function Home() {
       <div className="w-full flex justify-center mt-18 ps-5">
         <h1
           style={{ wordSpacing: "0.5rem" }}
-          className="font-serif  text-6xl text-center"
+          className="font-serif text-center text-5xl md:text-6xl"
         >
           Find your homeplace
         </h1>
       </div>
 
-      {/* Navigation ( Top )  */}
-      <section className="-ms-15">
-        <div className="w-full flex justify-center mt-20">
-          <div className="me-5 flex bg-transparent justify-center w-180 h-[2.7rem] gap-3 ms-44">
+      {/* Main Navigation */}
+      <section className="w-full">
+        {/* Top  */}
+        <div className="flex justify-center mt-20 ">
+          <div className="flex justify-center w-86 h-[2.7rem] gap-3 bg-transparent md:w-180 md:ms-19 ">
             <button className="flex-1 bg-[#0025AF] text-lg rounded ">
               Buy
             </button>
@@ -48,9 +54,14 @@ export default function Home() {
 
         {/* Search Navigation */}
         <div className="w-full flex justify-center ">
-          <form className="flex items-center w-220 h-20 bg-[#0025AF] rounded gap-5 px-4">
-            {/* ``By Cit`y` */}
-            <div className="flex items-center bg-white rounded-xl px-6 py-[5px]">
+          <form
+            className="  
+            flex items-center w-85 h-20 m-0 px-2 gap-3 bg-[#0025AF] rounded
+            md:w-220 md:-ms-21 md:px-4 md:gap-5 
+            "
+          >
+            {/* By City ( Hidden on mobile ) */}
+            <div className="hidden items-center px-6 py-[5px] bg-white rounded-xl md:flex">
               <h2 className="text-black text-base font-medium whitespace-nowrap">
                 By city
               </h2>
@@ -76,16 +87,37 @@ export default function Home() {
             </div>
 
             {/* Search button */}
-            <button className="bg-[#0B0E52] flex justify-center items-center  text-white rounded-xl whitespace-nowrap">
-              <p className="text-lg font-medium ps-3">Search</p>
-              <Image
-                src="/glass-icon.png"
-                width={50}
-                height={50}
-                alt="Go for it"
-              />
+            <button
+              className="
+            flex justify-center items-center overflow-hidden max-h-14 max-w-35 
+            bg-[#0B0E52] text-white whitespace-nowrap rounded-xl"
+            >
+              <p className="hidden md:block text-lg font-medium ps-3">Search</p>
+
+              <div className="relative h-11 w-12 md:h-13 md:w-12 ">
+                <Image src="/glass-icon.png" fill alt="Go for it" />
+              </div>
             </button>
           </form>
+        </div>
+        {/* By city Mobile */}
+        <div className="flex justify-center w-full md:hidden">
+          <div className="flex justify-center w-85 h-10 bg-black ">
+            <ul className="flex overflow-hidden items-center text-sm gap-5 h-10 w-[95%] ">
+              <li className="flex gap-2">
+                <MapPin size={19} color="white" />
+                <span>London</span>
+              </li>
+              <li>Manchester</li>
+              <li>Liverpool</li>
+              <li>
+                <div className="flex items-center gap-1 h-6 px-2 text-black text-[13px] bg-gray-300 ">
+                  <p>More</p>
+                  <StepForward size={16} color="black" absoluteStrokeWidth />
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
     </div>
