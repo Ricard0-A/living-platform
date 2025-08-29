@@ -3,17 +3,38 @@ import Image from "next/image";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Menu, X } from "lucide-react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
+
 // import clsx from "clsx"; // Luego para condicionales en cadena
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openLang, setOpenLang] = useState(false);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (isOpen) {
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      html.style.overflow = "";
+      body.style.overflow = "";
+    }
+
+    return () => {
+      html.style.overflow = "";
+      body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
     <>
+      {/* ==========================            DESKTOP MOBILE          ========================   */}
+
       <nav className="hidden md:block shadow-md text-white ">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-800 max-w-9xl px-5 flex items-center justify-between">
@@ -99,7 +120,9 @@ const Navbar = () => {
           <ul className="z-10 flex items-center justify-end gap-6 text-lg text-white pe-4">
             <li>
               <div className="flex items-center gap-2">
-                <h2> Browse properties</h2>
+                <Link href={"/properties"}>
+                  <h2> Browse properties</h2>
+                </Link>
                 <ChevronDown color="white" size="20" />
               </div>
             </li>
@@ -116,7 +139,7 @@ const Navbar = () => {
       </nav>
       {/* Open/Close Mobile Navbar */}
       <div
-        className={`fixed top-4 right-4 z-60 cursor-pointer md:hidden`}
+        className={`absolute top-4 right-4 z-30 cursor-pointer md:hidden`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? (
@@ -126,12 +149,14 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Mobile Navbar*/}
+      {/* ==========================  NAVBAR MOBILE ========================   */}
+
       <nav
-        className={`fixed inset-0 bg-black text-white z-50 transition-all duration-600 ease-in-out 
+        className={`fixed inset-0 bg-black text-white z-20 transition-all duration-600 ease-in-out 
     transform ${
       isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
     }`}
+        style={{ minHeight: "100vh !important", overflow: "auto !important" }}
       >
         <div className="pt-40 w-full">
           <ul className="flex flex-col gap-6 text-xl p-4">
@@ -173,6 +198,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+        <div className="hidden overflow-hidden">LOL</div>
       </nav>
     </>
   );
