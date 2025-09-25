@@ -1,7 +1,11 @@
 "use client";
 import { error } from "console";
-import { Type } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+
+// Lucide-React
+import { Search } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 
 // Types
 type Character = {
@@ -19,16 +23,6 @@ type Apartment = {
     small: string;
   };
 };
-
-// 1- Se llama a la API.
-// 2- Se evalúa si el usuario ha hecho una búsqueda.
-//    Si es así, se mapea esa búsqueda (nos dará un array con los resultados de la búsqueda).
-// 3- Si no, se mapean los datos de la API original (la API se llama sí o sí).
-// 3.5- El algoritmo permite que el usuario pueda volver a buscar otro dato o, si no hace ninguna búsqueda,
-// reiniciamos el estado que contiene la información de la búsqueda anterior.
-// Al reiniciarlo, ya tenemos en los condicionales un respaldo por si el dato está vacío,
-// de modo que se muestre todo el dataset completo sin filtros.
-// 4- En cualquier error, tendremos un JSX de respaldo + type hints.
 
 export const Properties = () => {
   const baseUrl = "https://rickandmortyapi.com/api";
@@ -91,9 +85,12 @@ export const Properties = () => {
         .replace(/\s/g, "")
         .includes(cleanValue)
     );
-    console.log(resolve);
-    if (resolve) setGetSearch(resolve);
-    else {
+
+    console.log("Esto viene de FilterSearch", resolve);
+    if (resolve) {
+      setGetSearch(resolve);
+      console.log(getSearch);
+    } else {
       console.log("No hubo busqueda");
       return [];
     }
@@ -114,7 +111,7 @@ export const Properties = () => {
     return data.map((unit) => (
       <div
         key={unit?.id}
-        className="bg-blue-500 h-99 border-2 border-green-400 border-solid"
+        className="bg-blue-500 h-99 border-2 border-b-amber-200 border-solid"
       >
         <img src={unit?.urls.full} alt="Character Image" />
         <h3> Description : {unit?.alt_description} </h3>
@@ -159,35 +156,49 @@ export const Properties = () => {
   }, [content]);
 
   return (
-    <section className="bg-gray-200 h-full w-full">
-      {/* Barra de busqueda  */}
-      <div
-        className="
-        flex justify-center items-center mx-auto h-15 w-[39%]
-        bg-gradient-to-r from-green-800 to-green-500 rounded"
-      >
-        <div className="flex items-center h-10 w-[95%] ps-3 bg-gray-900 rounded">
-          <input
-            onChange={searching}
-            value={writing}
-            className="w-[90%]  outline-none"
-            type="text"
-            placeholder="I'm looking for a new flat..."
-          />
-          <button
-            onClick={applyFilters}
-            className="px-3 py-2  hover:opacity-90 bg-green-400 rounded"
-          >
-            Send
-          </button>
+    <section className="bg-gray-100 h-full w-full">
+      {/* Logo Principal al lado del Bars  */}
+      <div className="z-80 relative h-45 w-45">
+        <Image fill alt="Main Logo" src={"/logo-brand.png"} />
+      </div>
+      {/* Barra de busqueda && Filter Box*/}
+      <div className="flex items-center mx-3 gap-3">
+        {/* Barra de busqueda - Main  */}
+        <div
+          className="
+        flex justify-center items-center  h-18 w-[77%]
+        border-1 border-solid border-blue-500 bg-blue-100 rounded-2xl "
+        >
+          {/* Barra de busqueda - Box */}
+          <div className="flex-[4] flex items-center rounded">
+            {/* Input */}
+            <input
+              onChange={searching}
+              value={writing}
+              className="text-md ps-3 w-[77%] outline-none"
+              type="text"
+              placeholder="I'm looking for a new flat..."
+            />
+            <button
+              onClick={applyFilters}
+              className="px-4 py-2  hover:opacity-90 bg-[#232BC2] rounded"
+            >
+              <Search strokeWidth={1.5} width={22} height={28} color="white" />
+            </button>
+          </div>
+        </div>
+        {/* Filter Box */}
+        <div className="flex-[1] h-15 flex justify-center items-center bg-[#D9D9D9] border border-solid border-blue-500 rounded-2xl">
+          <SlidersHorizontal height={28} width={28} />
         </div>
       </div>
+
       {/* GRIDS  */}
-      <div className="grid grid-cols-3 h-400 w-400 bg-amber-300">{content}</div>
+      <div className="mt-10 grid grid-cols-3 h-400 w-400 bg-amber-300">
+        {content}
+      </div>
     </section>
   );
 };
 
 export default Properties;
-
-// ==========================

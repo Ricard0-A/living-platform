@@ -11,14 +11,12 @@ import {
   ChevronsRight,
   ChevronsUp,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 
 // import { url } from "inspector";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
       <div
         className="h-180 w-full mt-[-5rem] overflow-hidden md:min-h-[116vh]"
         style={{

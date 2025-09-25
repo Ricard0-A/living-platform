@@ -7,7 +7,7 @@ import {
   Roboto,
 } from "next/font/google";
 import "./globals.css";
-// import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -51,7 +51,7 @@ export default function RootLayout({
       <body
         className={`${openSans.variable} ${poppins.variable} ${roboto.variable} antialiased`}
       >
-        {/* <Navbar /> */}
+        <Navbar />
         <main>{children}</main>
       </body>
     </html>
