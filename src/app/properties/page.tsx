@@ -6,6 +6,13 @@ import Image from "next/image";
 // Lucide-React
 import { Search } from "lucide-react";
 import { SlidersHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { Bath } from "lucide-react";
+import { BedSingle } from "lucide-react";
+import { Landmark } from "lucide-react";
+
+// SUPABASE
+import { supabase } from "@/lib/supabaseClient";
 
 // Types
 type Character = {
@@ -14,14 +21,19 @@ type Character = {
   image: string;
 };
 
-type Apartment = {
+type ApartmentProperty = {
   id: number;
-  alt_description: string;
-  urls: {
+  // Type para Unsplash API (opcionales porque Supabase no las tiene)
+  alt_description?: string;
+  urls?: {
     full: string;
     regular: string;
     small: string;
   };
+  // Type para Supabase (opcionales porque Unsplash no las tiene)
+  title?: string;
+  price?: number;
+  description?: string;
 };
 
 export const Properties = () => {
@@ -29,15 +41,47 @@ export const Properties = () => {
 
   // Estados Para busqueda
   const [ogData, setOgData] = useState<Character[]>([]);
-  //  sin filtros en caso  de que no haya busqueda
+
+  // Estado propiedades de Supabase
+  const [property, setProperty] = useState<ApartmentProperty[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Estados de control/resultado de busqueda
   const [writing, setWriting] = useState("");
-  const [getSearch, setGetSearch] = useState<Apartment[]>([]);
+  const [getSearch, setGetSearch] = useState<ApartmentProperty[]>([]);
   const [noSearch, setNoSearch] = useState<Character[]>([]);
 
   // Estados de la Unsplash API
-  const [apartments, setApartments] = useState<Apartment[]>([]);
+  const [apartments, setApartments] = useState<ApartmentProperty[]>([]);
+
+  // =========================================================================================================
+  //                ↓                    M A I N      C A L L S                   ↓
+  // =========================================================================================================
+
+  // Trae datos de tablas SUPABASE
+  const fetchProperties = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.from("properties").select("*");
+
+      // Manejo de errores
+      if (error) console.error("Fetch error a Supabase", error?.message);
+      if (!data)
+        console.warn(
+          "Data del fetch retorna valores falsy ( Null, undefined )"
+        );
+      if (!data?.length)
+        console.warn("Data del fetch exitoso, pero es un array vacio []");
+
+      // Resultados optimos
+      setProperty(data as ApartmentProperty[]);
+      console.info("Exito, tenemos datos del registro", data);
+      setLoading(false); // Esto es para backup UI mientras no llega datos aun
+    } catch (error) {
+      console.log("Error interno de supabase", error);
+    }
+  };
+
   // Handler Unplash API
   const getApiImages = async () => {
     try {
@@ -79,11 +123,12 @@ export const Properties = () => {
   // Busqueda
   const filterSearch = () => {
     const cleanValue = writing.toLowerCase().replace(/\s/g, "");
-    const resolve = apartments?.filter((unit) =>
-      (unit.alt_description ?? "")
-        .toLowerCase()
-        .replace(/\s/g, "")
-        .includes(cleanValue)
+    const resolve = property?.filter(
+      (unit) =>
+        (unit.description ?? "")
+          .toLowerCase()
+          .replace(/\s/g, "")
+          .includes(cleanValue) // Comparacion
     );
 
     console.log("Esto viene de FilterSearch", resolve);
@@ -107,17 +152,57 @@ export const Properties = () => {
   // =========================================================================================================
 
   // JSX para mostrar contenido de busqueda / Parametro Dinamico
-  const renderCards = (data: Apartment[]) => {
-    return data.map((unit) => (
-      <div
+  const renderCards = (data: ApartmentProperty[]) => {
+    return data.map((unit, index) => (
+      <article
         key={unit?.id}
-        className="bg-blue-500 h-99 border-2 border-b-amber-200 border-solid"
+        className="
+        bg-white rounded-xl py-4 shadow-sm
+        hover:shadow-md transition-shadow duration-300
+        "
       >
-        <img src={unit?.urls.full} alt="Character Image" />
-        <h3> Description : {unit?.alt_description} </h3>
-        <p>|||||||||||||||||</p>
-        <p>|||||||||||||||||</p>
-      </div>
+        {/* Imagen */}
+        <img
+          src={apartments[index]?.urls?.regular}
+          alt={`Image of ${unit?.title}`}
+          className="w-full h-48 px-2 object-cover bg-cover"
+        />
+
+        {/* Contenido */}
+        <div className="p-4 space-y-5">
+          <div className="w-full">
+            <h2 className="break-words font-bold">
+              Newtty One - London Bridge Street, London, S34453
+            </h2>
+          </div>
+          {/* Bath, Bed, squarefeets  */}
+          <div className="text-sm flex gap-12">
+            <div className="flex gap-1">
+              <Bath />
+              <span>2</span>
+              <span>Baths</span>
+            </div>
+            <div className="flex gap-1">
+              <BedSingle />
+              <span>2</span>
+              <span>Beds</span>
+            </div>
+            <div className="flex gap-1">
+              <Landmark />
+              <span>3540,22 sqfts</span>
+            </div>
+          </div>
+          {/* Precio */}
+          <div className="flex justify-between items-center">
+            <p className="text-blue-800 font-bold text-base">
+              £ {unit?.price?.toLocaleString()}
+            </p>
+            <button className="text-sm text-blue-600 hover:underline">
+              View Details
+            </button>
+          </div>
+        </div>
+      </article>
     ));
   };
 
@@ -127,9 +212,10 @@ export const Properties = () => {
 
   // Tener cuidado con este let que no es escalable por falta de useState
   let content;
-
+  // getSearch ahora busca en property pero sigue buscando
+  // by word solo el description
   if (getSearch?.length > 0) content = renderCards(getSearch);
-  else if (apartments?.length > 0) content = renderCards(apartments);
+  else if (property?.length > 0) content = renderCards(property);
   else {
     content = (
       <div>
@@ -146,6 +232,10 @@ export const Properties = () => {
   // =========================================================================================================
   //                        ↓                       E F F E C T S                      ↓
   // =========================================================================================================
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
 
   useEffect(() => {
     getApiImages();
@@ -193,12 +283,37 @@ export const Properties = () => {
         </div>
       </div>
 
+      {/* ACA Sort By etc*/}
+      <div className="mt-8 mx-3  space-y-3 p-2 rounded-md">
+        {/* Header info */}
+        <div>
+          <span className="font-bold text-blue-900">1 - 20 of 3500</span>
+          <span className="ml-1 text-gray-900">Properties in UK</span>
+        </div>
+
+        {/* Sort section */}
+        <div className="flex items-center gap-2">
+          <label className="text-gray-800 font-medium">Sort by:</label>
+          <button
+            type="button"
+            className="flex items-center gap-1 text-blue-900 hover:text-blue-700 transition"
+          >
+            <span>Most Recent</span>
+            <ChevronDown height={18} width={18} color="#352175" />
+          </button>
+        </div>
+      </div>
+
       {/* GRIDS  */}
-      <div className="mt-10 grid grid-cols-3 h-400 w-400 bg-amber-300">
+      <div
+        className="
+        grid grid-cols-1 md:grid-cols-3 
+        mt-7 h-100 w-100 bg-amber-300
+      "
+      >
         {content}
       </div>
     </section>
   );
 };
-
 export default Properties;
