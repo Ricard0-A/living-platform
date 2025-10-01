@@ -257,7 +257,7 @@ export const Properties = () => {
         <div
           className="
         flex justify-center items-center  h-18 w-[77%]
-        border-1 border-solid border-blue-500 bg-blue-100 rounded-2xl "
+        border-1 border-solid border-blue-200 bg-blue-100 rounded-2xl "
         >
           {/* Barra de busqueda - Box */}
           <div className="flex-[4] flex items-center rounded">
@@ -271,20 +271,26 @@ export const Properties = () => {
             />
             <button
               onClick={applyFilters}
-              className="px-4 py-2  hover:opacity-90 bg-[#232BC2] rounded"
+              className="px-4 py-2 hover:opacity-90 bg-[#232BC2] rounded"
             >
               <Search strokeWidth={1.5} width={22} height={28} color="white" />
             </button>
           </div>
         </div>
         {/* Filter Box */}
-        <div className="flex-[1] h-15 flex justify-center items-center bg-[#D9D9D9] border border-solid border-blue-500 rounded-2xl">
-          <SlidersHorizontal height={28} width={28} />
+        <div
+          className="
+          flex-[1] h-13 flex justify-center items-center
+          bg-[#D9D9D9] border border-solid border-blue-300
+          rounded-2xl
+          "
+        >
+          <SlidersHorizontal height={24} width={24} />
         </div>
       </div>
 
       {/* ACA Sort By etc*/}
-      <div className="mt-8 mx-3  space-y-3 p-2 rounded-md">
+      <div className="mt-8 mx-3 space-y-3 p-2 rounded-md md:flex md:justify-between">
         {/* Header info */}
         <div>
           <span className="font-bold text-blue-900">1 - 20 of 3500</span>
@@ -308,7 +314,7 @@ export const Properties = () => {
       <div
         className="
         grid grid-cols-1 md:grid-cols-3 
-        mt-7 h-100 w-100 bg-amber-300
+        mt-7 h-100  bg-amber-300
       "
       >
         {content}

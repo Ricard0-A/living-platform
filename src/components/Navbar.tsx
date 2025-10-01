@@ -1,17 +1,28 @@
 "use client";
-import Image from "next/image";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { Menu, X } from "lucide-react";
-
+// Effects
 import { useState, useEffect } from "react";
-
+// Href
 import Link from "next/link";
+// Replace tag Image
+import Image from "next/image";
+// Lucide React
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+// Next Navigation
+import { usePathname } from "next/navigation";
 
 // import clsx from "clsx"; // Luego para condicionales en cadena
 
 const Navbar = () => {
+  // ========================  S T A T E S  ========================
+
   const [isOpen, setIsOpen] = useState(false);
   const [openLang, setOpenLang] = useState(false);
+
+  // ========================  L O G I C ========================
+
+  const pathName = usePathname();
+
+  const isHome = pathName === "/";
 
   useEffect(() => {
     const html = document.documentElement;
@@ -143,9 +154,17 @@ const Navbar = () => {
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? (
-          <X className="scale-250" color="white" size={20} />
+          <div className="p-5">
+            <X className="scale-250" color="white" size={15} />
+          </div>
         ) : (
-          <Menu className="scale-250" color="white" size={20} />
+          <div className={`p-5 ${isHome ? "" : "bg-blue-100"}`}>
+            <Menu
+              className="scale-250"
+              color={isHome ? "white" : "black"}
+              size={15}
+            />
+          </div>
         )}
       </div>
 
