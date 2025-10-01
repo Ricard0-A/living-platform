@@ -251,16 +251,27 @@ export const Properties = () => {
       <div className="z-80 relative h-45 w-45">
         <Image fill alt="Main Logo" src={"/logo-brand.png"} />
       </div>
+      {/* Buy / Sell ( Solo desktop )*/}
+      <div className="hidden md:flex mx-3 pb-1">
+        <div className="min-w-25 bg-blue-200 ps-8 py-2">Buy</div>
+        <div className="min-w-25 bg-[#232BC2] text-white ps-8 py-2">Rent</div>
+      </div>
       {/* Barra de busqueda && Filter Box*/}
       <div className="flex items-center mx-3 gap-3">
         {/* Barra de busqueda - Main  */}
         <div
           className="
-        flex justify-center items-center  h-18 w-[77%]
-        border-1 border-solid border-blue-200 bg-blue-100 rounded-2xl "
+          flex justify-center items-center h-18 w-[77%]
+          border-1 border-solid border-blue-200 bg-blue-100 rounded
+          md:w-[55%]"
         >
           {/* Barra de busqueda - Box */}
-          <div className="flex-[4] flex items-center rounded">
+          <div
+            className="
+              flex-[4] flex items-center rounded
+              md:justify-between md:pe-5
+              "
+          >
             {/* Input */}
             <input
               onChange={searching}
@@ -280,11 +291,15 @@ export const Properties = () => {
         {/* Filter Box */}
         <div
           className="
-          flex-[1] h-13 flex justify-center items-center
-          bg-[#D9D9D9] border border-solid border-blue-300
-          rounded-2xl
+          flex-[1] md:flex-none md:w-49
+          flex justify-center items-center h-13
+          bg-[#D9D9D9] border border-solid border-blue-300 rounded-2xl
+           md:ml-auto md:gap-5 md:rounded-none
           "
         >
+          <label className="hidden md:block" htmlFor="">
+            Filter Properties
+          </label>
           <SlidersHorizontal height={24} width={24} />
         </div>
       </div>
