@@ -2,6 +2,7 @@
 import { error } from "console";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // Lucide-React
 import { Search } from "lucide-react";
@@ -55,7 +56,7 @@ export const Properties = () => {
   const [apartments, setApartments] = useState<ApartmentProperty[]>([]);
 
   // =========================================================================================================
-  //                ↓                    M A I N      C A L L S                   ↓
+  //                ↓                     M A I N      C A L L S                   ↓
   // =========================================================================================================
 
   // Trae datos de tablas SUPABASE
@@ -247,53 +248,74 @@ export const Properties = () => {
 
   return (
     <section className="bg-gray-100 h-full w-full">
-      {/* Logo Principal al lado del Bars  */}
-      <div className="z-80 relative h-45 w-45">
-        <Image fill alt="Main Logo" src={"/logo-brand.png"} />
-      </div>
       {/* Buy / Sell ( Solo desktop )*/}
-      <div className="hidden md:flex mx-3 pb-1">
-        <div className="min-w-25 bg-blue-200 ps-8 py-2">Buy</div>
-        <div className="min-w-25 bg-[#232BC2] text-white ps-8 py-2">Rent</div>
+      <div className="hidden mt-10 mx-3 pb-2 md:flex ">
+        <div
+          className="
+          transition-colors ease-in-out duration-250
+        bg-blue-200 hover:bg-blue-300
+          border border-solid border-gray-400
+          min-w-25 ps-8 py-2"
+        >
+          Buy
+        </div>
+        <div className="min-w-25 border border-solid border-gray-400 bg-[#232BC2] text-white ps-8 py-2">
+          Rent
+        </div>
       </div>
       {/* Barra de busqueda && Filter Box*/}
       <div className="flex items-center mx-3 gap-3">
-        {/* Barra de busqueda - Main  */}
+        {/* Fondo para Barra de busqueda ( Left Children )*/}
         <div
           className="
-          flex justify-center items-center h-18 w-[77%]
-          border-1 border-solid border-blue-200 bg-blue-100 rounded
-          md:w-[55%]"
+          hidden shadow-[0_0_8px_2px_#6EC1E6] 
+          h-40 p-3 border-1 border-solid border-blue-700 
+          md:block md:w-[55%]"
         >
-          {/* Barra de busqueda - Box */}
+          {/* Barra de busqueda - Main  */}
           <div
             className="
-              flex-[4] flex items-center rounded
-              md:justify-between md:pe-5
-              "
+          flex justify-center items-center h-17 w-[77%]
+          border-1 border-solid border-gray-400 bg-blue-100 rounded
+          md:w-[90%] "
           >
-            {/* Input */}
-            <input
-              onChange={searching}
-              value={writing}
-              className="text-md ps-3 w-[77%] outline-none"
-              type="text"
-              placeholder="I'm looking for a new flat..."
-            />
-            <button
-              onClick={applyFilters}
-              className="px-4 py-2 hover:opacity-90 bg-[#232BC2] rounded"
+            {/* Barra de busqueda - Box */}
+            <div
+              className="
+              flex-[4] flex items-center rounded
+              md:justify-between md:pe-5 
+              "
             >
-              <Search strokeWidth={1.5} width={22} height={28} color="white" />
-            </button>
+              {/* Input */}
+              <input
+                onChange={searching}
+                value={writing}
+                className="text-md ps-3 w-[77%] outline-none"
+                type="text"
+                placeholder="I'm looking for a new flat..."
+              />
+              {/* Input Button */}
+              <button
+                onClick={applyFilters}
+                className="px-6 py-2 hover:opacity-90 bg-[#232BC2] rounded"
+              >
+                <Search
+                  strokeWidth={1.5}
+                  width={22}
+                  height={28}
+                  color="white"
+                />
+              </button>
+            </div>
           </div>
         </div>
-        {/* Filter Box */}
+
+        {/* Filter Box ( Right Children ) */}
         <div
           className="
           flex-[1] md:flex-none md:w-49
           flex justify-center items-center h-13
-          bg-[#D9D9D9] border border-solid border-blue-300 rounded-2xl
+          bg-[#D9D9D9] border border-solid border-blue-900 rounded-2xl
            md:ml-auto md:gap-5 md:rounded-none
           "
         >

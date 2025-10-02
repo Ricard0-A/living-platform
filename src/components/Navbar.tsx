@@ -46,7 +46,7 @@ const Navbar = () => {
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
 
-      <nav className="hidden md:block shadow-md text-white ">
+      <nav className="hidden md:block shadow-md text-white bg-[#2A3758]">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-800 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
@@ -123,11 +123,20 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
         {/* Navbar ( Bottom )  */}
-        <div className="relative -top-1 z-10 overflow-hidden max-h-[5rem] max-w-[41rem] ml-auto px-4 py-3">
+        <div
+          className="
+          relative -top-1 z-10 overflow-hidden 
+          max-h-[5rem] max-w-[41rem] ml-auto px-4 py-3
+          md:max-w-full md:flex justify-between"
+        >
+          <div className="hidden md:block relative -top-8 w-38 h-35">
+            <Link href={`/`}>
+              <Image fill alt="Logo Brand to Home" src={"/logo-brand.png"} />
+            </Link>
+          </div>
           {/* Transparent overlay */}
-          <div className="absolute inset-0 bg-black opacity-15 -z-10 rounded-lg" />
+          <div className="absolute inset-0 bg-black opacity-15 -z-10 rounded-lg " />
           <ul className="z-10 flex items-center justify-end gap-6 text-lg text-white pe-4">
             <li>
               <div className="flex items-center gap-2">
@@ -217,7 +226,6 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="hidden overflow-hidden">LOL</div>
       </nav>
     </>
   );
