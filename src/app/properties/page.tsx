@@ -40,6 +40,10 @@ type ApartmentProperty = {
 export const Properties = () => {
   const baseUrl = "https://rickandmortyapi.com/api";
 
+  // =========================================================================================================
+  //                               ↓                   S T A T E S                 ↓
+  // =========================================================================================================
+
   // Estados Para busqueda
   const [ogData, setOgData] = useState<Character[]>([]);
 
@@ -152,6 +156,8 @@ export const Properties = () => {
   //                ↓                   R E N D E R     H E L P E R S                 ↓
   // =========================================================================================================
 
+  // Componente JSX Para mostrar barra de busqueda con parametros dinamicos
+
   // JSX para mostrar contenido de busqueda / Parametro Dinamico
   const renderCards = (data: ApartmentProperty[]) => {
     return data.map((unit, index) => (
@@ -263,9 +269,13 @@ export const Properties = () => {
           Rent
         </div>
       </div>
+
+      {/* START */}
+
       {/* Barra de busqueda && Filter Box*/}
       <div className="flex items-center mx-3 gap-3">
         {/* Fondo para Barra de busqueda ( Left Children )*/}
+        {/* Glow Background Only */}
         <div
           className="
           hidden shadow-[0_0_8px_2px_#6EC1E6] 
@@ -275,9 +285,9 @@ export const Properties = () => {
           {/* Barra de busqueda - Main  */}
           <div
             className="
-          flex justify-center items-center h-17 w-[77%]
-          border-1 border-solid border-gray-400 bg-blue-100 rounded
-          md:w-[90%] "
+            flex justify-center items-center h-17 w-[77%]
+            border-1 border-solid border-gray-400 bg-blue-100 rounded
+            md:w-[90%]"
           >
             {/* Barra de busqueda - Box */}
             <div
@@ -325,6 +335,8 @@ export const Properties = () => {
           <SlidersHorizontal height={24} width={24} />
         </div>
       </div>
+
+      {/* END  */}
 
       {/* ACA Sort By etc*/}
       <div className="mt-8 mx-3 space-y-3 p-2 rounded-md md:flex md:justify-between">

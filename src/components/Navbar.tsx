@@ -125,12 +125,15 @@ const Navbar = () => {
         </div>
         {/* Navbar ( Bottom )  */}
         <div
-          className="
+          className={`
           relative -top-1 z-10 overflow-hidden 
           max-h-[5rem] max-w-[41rem] ml-auto px-4 py-3
-          md:max-w-full md:flex justify-between"
+          ${isHome ? "" : "md:max-w-full flex justify-between"} `}
         >
-          <div className="hidden md:block relative -top-8 w-38 h-35">
+          <div
+            className={`hidden ${isHome ? "md:hidden" : "md:block"}
+                relative -top-8 w-38 h-35`}
+          >
             <Link href={`/`}>
               <Image fill alt="Logo Brand to Home" src={"/logo-brand.png"} />
             </Link>
