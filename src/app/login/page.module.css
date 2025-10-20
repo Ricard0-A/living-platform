@@ -1,0 +1,48 @@
+.loginSection {
+  position: relative;
+  width: 100%;
+  padding: 1.25rem;
+  min-height: 100vh;
+}
+
+.loginSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.16); /* El ultimo valor decide opacidad */
+  z-index: 0; 
+}
+
+.loginBox {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.9rem;
+}
+
+.loginSection > div {
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .loginBox {
+    width: 460px;
+    padding: 2.33rem;
+    gap: 2.3rem;
+    background-color: #d4d7e6;
+    border: solid 1px green;
+    border-radius: 10px;
+  }
+
+  .loginSection {
+    display: flex;
+    justify-content: space-around;
+    background-image: url("/login/background-login.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+}

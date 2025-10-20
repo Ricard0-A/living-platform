@@ -71,7 +71,6 @@ const SearchBar = ({ writing, searching, applyFilters }: WriteAndSearch) => {
 };
 
 export const Properties = () => {
-  const baseUrl = "https://rickandmortyapi.com/api";
 
   // =========================================================================================================
   //                               ↓                   S T A T E S                 ↓
@@ -212,7 +211,7 @@ export const Properties = () => {
         <div className="p-4 space-y-5">
           <div className="w-full">
             <h2 className="break-words font-bold">
-              Newtty One - London Bridge Street, London, S34453
+              {unit?.description}
             </h2>
           </div>
           {/* Bath, Bed, squarefeets  */}
@@ -386,3 +385,5 @@ export const Properties = () => {
   );
 };
 export default Properties;
+ 
+

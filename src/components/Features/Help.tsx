@@ -3,7 +3,7 @@ const News = () => {
     <section
       className="relative mt-13 w-full min-h-100 text-white md:mt-20 "
       style={{
-        backgroundImage: "url('./homes/news-image-2.jpg')",
+        backgroundImage: "url('/homes/news-image-2.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         opacity: "",

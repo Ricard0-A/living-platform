@@ -33,10 +33,14 @@ body {
   /* font-family: var(--font-poppins);  Buena para toda la web o Titulos */
 }
 
-h2,
+h1 {
+  font-family: var(--font-serif);
+}
+
+/* h2,
 h3 {
   font-family: var(--font-geist);
-}
+} */
 
 @layer utilities {
   .overflow-hidden {

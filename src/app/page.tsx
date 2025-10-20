@@ -20,10 +20,10 @@ export default function Home() {
       <div
         className="h-180 w-full mt-[-5rem] overflow-hidden md:min-h-[116vh]"
         style={{
-          backgroundImage: "url(./uk-home-opacity-50.png)",
+          backgroundImage: "url(homes/uk-home-opacity-50.png)",
           backgroundPosition: "center",
         }}
-      >
+      >  
         {/* Logo Box  */}
         <div
           className="
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="text-gray-100 w-full flex justify-center mt-18 ps-5">
           <h1
             style={{ wordSpacing: "0.5rem" }}
-            className="font-serif text-center text-5xl md:text-6xl"
+            className=" text-center text-5xl md:text-6xl"
           >
             Find your homeplace
           </h1>
