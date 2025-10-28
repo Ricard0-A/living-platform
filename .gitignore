@@ -40,6 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# md archives ( Not the one README.md )
+# md archives ( Not README.md  )
 properties.md
 register.md
