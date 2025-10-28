@@ -41,10 +41,18 @@ type WriteAndSearch = {
   searching: (e: React.ChangeEvent<HTMLInputElement>) => void;
   writing: string;
   applyFilters: () => void;
+  onFocus: () => void;
+  onBlur: () => void;
 };
 
 // Componente JSX Para mostrar barra de busqueda con parametros dinamicos
-const SearchBar = ({ writing, searching, applyFilters }: WriteAndSearch) => {
+const SearchBar = ({
+  writing,
+  searching,
+  applyFilters,
+  onFocus,
+  onBlur,
+}: WriteAndSearch) => {
   return (
     <div className="flex justify-center items-center h-17 w-[90%] border border-gray-400 bg-blue-100 rounded">
       <div className="flex-[4] flex items-center rounded  md:pe-5 md:justify-between">
@@ -54,6 +62,8 @@ const SearchBar = ({ writing, searching, applyFilters }: WriteAndSearch) => {
           className="text-[15px] ps-3 w-[77%] outline-none"
           type="text"
           placeholder="I'm looking for a new flat..."
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <button
           onClick={applyFilters}
@@ -71,7 +81,6 @@ const SearchBar = ({ writing, searching, applyFilters }: WriteAndSearch) => {
 };
 
 export const Properties = () => {
-
   // =========================================================================================================
   //                               ↓                   S T A T E S                 ↓
   // =========================================================================================================
@@ -83,13 +92,16 @@ export const Properties = () => {
   const [property, setProperty] = useState<ApartmentProperty[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Estados de la Unsplash API
+  const [apartments, setApartments] = useState<ApartmentProperty[]>([]);
+
   // Estados de control/resultado de busqueda
   const [writing, setWriting] = useState("");
   const [getSearch, setGetSearch] = useState<ApartmentProperty[]>([]);
   const [noSearch, setNoSearch] = useState<Character[]>([]);
 
-  // Estados de la Unsplash API
-  const [apartments, setApartments] = useState<ApartmentProperty[]>([]);
+  // Estados para controlar divs con blur animation
+  const [isFocused, setIsFocused] = useState(false);
 
   // =========================================================================================================
   //                ↓                     M A I N      C A L L S                   ↓
@@ -210,9 +222,7 @@ export const Properties = () => {
         {/* Contenido */}
         <div className="p-4 space-y-5">
           <div className="w-full">
-            <h2 className="break-words font-bold">
-              {unit?.description}
-            </h2>
+            <h2 className="break-words font-bold">{unit?.description}</h2>
           </div>
           {/* Bath, Bed, squarefeets  */}
           <div className="text-sm flex gap-12">
@@ -314,15 +324,20 @@ export const Properties = () => {
       <div className="flex items-center mx-3 gap-2">
         {/* Fondo GLOW para Barra de busqueda ( Left Children )*/}
         <div
-          className="
-          hidden h-40 p-3  shadow-[0_0_8px_2px_#6EC1E6] 
-           border-1 border-solid border-blue-700 
-          md:block md:w-[55%]"
+          className={`hidden md:block md:w-[55%] p-3 transition-all duration-500 ease-in-out 
+            ${
+              isFocused
+                ? "h-40 shadow-[0_0_12px_3px_#7c90e5]"
+                : "h-20 shadow-none"
+            }
+          `}
         >
           <SearchBar
             searching={searching}
             writing={writing}
             applyFilters={applyFilters}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           />
         </div>
         {/* Barra de busqueda normal ( Movil Sin glow ) */}
@@ -331,6 +346,8 @@ export const Properties = () => {
             searching={searching}
             writing={writing}
             applyFilters={applyFilters}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           />
         </div>
         {/* Filter Box ( Right Children ) */}
@@ -376,7 +393,7 @@ export const Properties = () => {
       <div
         className="
         grid grid-cols-1 md:grid-cols-3 
-        mt-7 h-100  bg-amber-300
+        mt-5 h-100  bg-amber-300
       "
       >
         {content}
@@ -385,5 +402,3 @@ export const Properties = () => {
   );
 };
 export default Properties;
- 
-

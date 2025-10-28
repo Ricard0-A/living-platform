@@ -49,9 +49,9 @@ const Navbar = () => {
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
 
-      <nav className="hidden md:block shadow-md text-white bg-[#2A3758]">
+      <nav className="hidden md:block shadow-md text-white bg-[#2b355d]">
         {/* Main Navbar ( Top )  */}
-        <div className="bg-gray-800 max-w-9xl px-5 flex items-center justify-between">
+        <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
           <div className="flex space-x-5 text-lg font-500 hover:text-gray-200">
             {/* Language  */}
