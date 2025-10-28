@@ -23,6 +23,10 @@ const Navbar = () => {
   const pathName = usePathname();
 
   const isHome = pathName === "/";
+  const onRegister = pathName === "/register";
+  const onLogin = pathName === "/login";
+
+  if (onRegister || onLogin) return false;
 
   useEffect(() => {
     const html = document.documentElement;
@@ -41,7 +45,6 @@ const Navbar = () => {
       body.style.overflow = "";
     };
   }, [isOpen]);
-
   return (
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
