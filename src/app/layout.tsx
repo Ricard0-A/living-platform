@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AuthListener from "@/app/context/AuthListener";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import {
   Geist,
   Geist_Mono,
@@ -53,7 +54,7 @@ export default function RootLayout({
         className={`${openSans.variable} ${poppins.variable} ${roboto.variable} antialiased`}
       >
         <AuthListener />
-        <Navbar />
+        <NavbarWrapper />
         <main>{children}</main>
       </body>
     </html>

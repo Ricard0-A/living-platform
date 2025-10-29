@@ -49,7 +49,7 @@ const Navbar = () => {
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
 
-      <nav className="hidden md:block shadow-md text-white bg-[#2b355d]">
+      <nav className="hidden md:block shadow-md text-white bg-[#1D1C1C]">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
@@ -60,11 +60,6 @@ const Navbar = () => {
               onClick={() => setOpenLang(!openLang)}
             >
               <h1>Languages</h1>
-              <img
-                className="h-4"
-                src="./navbar-images/play-button-icon.png"
-                alt="open box"
-              />
             </div>
             {/* Language Options ( ENG && ESP )  (Left side ) */}
             <div className="mt-2 left-0 flex space-x-4">
