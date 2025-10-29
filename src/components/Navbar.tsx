@@ -49,7 +49,7 @@ const Navbar = () => {
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
 
-      <nav className="hidden md:block shadow-md text-white bg-[#1D1C1C]">
+      <nav className="hidden md:block shadow-md text-white bg-blue-100">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
@@ -137,21 +137,34 @@ const Navbar = () => {
             </Link>
           </div>
           {/* Transparent overlay */}
-          <div className="absolute inset-0 bg-black opacity-15 -z-10 rounded-lg " />
-          <ul className="z-10 flex items-center justify-end gap-6 text-lg text-white pe-4">
+          <div
+            className={`${
+              isHome
+                ? "absolute inset-0 bg-black opacity-15 -z-10 rounded-lg"
+                : ""
+            }`}
+          />
+          <ul
+            className={`${
+              isHome ? "text-white" : "text-black"
+            } z-10 flex items-center justify-end gap-6 text-lg pe-4`}
+          >
             <li>
               <div className="flex items-center gap-2">
                 <Link href={"/properties"}>
                   <h2> Browse properties</h2>
                 </Link>
-                <ChevronDown color="white" size="20" />
+                <ChevronDown
+                  className={`${isHome ? "text-white" : "text-black"}`}
+                  size="20"
+                />
               </div>
             </li>
             <li>Buy</li>
             <li>Rent</li>
             <li>How it works</li>
             <li>
-              <div className="bg-blue-700 px-3 py-3 rounded">
+              <div className=" text-white bg-blue-700 px-3 py-3 rounded">
                 Get Evaluation
               </div>
             </li>
