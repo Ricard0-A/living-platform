@@ -49,7 +49,7 @@ const Navbar = () => {
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
 
-      <nav className="hidden md:block shadow-md text-white bg-blue-100">
+      <nav className="hidden md:block shadow-md text-white bg-gray-100">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
@@ -124,6 +124,7 @@ const Navbar = () => {
         {/* Navbar ( Bottom )  */}
         <div
           className={`
+          shadow-[0_4px_2px_0_rgba(0,0,0,0.1)]
           relative -top-1 z-10 overflow-hidden 
           max-h-[5rem] max-w-[41rem] ml-auto px-4 py-3
           ${isHome ? "" : "md:max-w-full flex justify-between"} `}

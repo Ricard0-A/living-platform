@@ -295,7 +295,7 @@ export const Properties = () => {
   }, [content]);
 
   return (
-    <section className="bg-gray-100 h-full w-full">
+    <section className="h-full w-full">
       {/* Buy / Sell ( Solo desktop )*/}
       <div className="hidden mt-10 mx-3 pb-2 md:flex ">
         <div
