@@ -49,7 +49,7 @@ const Navbar = () => {
     <>
       {/* ==========================            DESKTOP MOBILE          ========================   */}
 
-      <nav className="hidden md:block shadow-md text-white bg-gray-100">
+      <nav className="hidden md:block shadow-md text-white  bg-gray-100">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
@@ -148,7 +148,7 @@ const Navbar = () => {
           <ul
             className={`${
               isHome ? "text-white" : "text-black"
-            } z-10 flex items-center justify-end gap-6 text-lg pe-4`}
+            } z-10 flex items-center justify-end gap-6 text-[17px] pe-4`}
           >
             <li>
               <div className="flex items-center gap-2">
