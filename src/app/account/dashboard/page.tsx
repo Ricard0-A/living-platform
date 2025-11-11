@@ -1,12 +1,38 @@
 "use client";
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 
 export default function Dashboard() {
+
+
+  //Constante Ref para acceder al contenedor principal con el fin de scroll
+  const sectionRef = useRef<HTMLDivElement>(null)
+
+  const handleScroll = (direction: "left" | "right") => {
+    // Container es igual al nodo del DOM y ahora puede acceder a cosas como .focus() etc 
+    const container = sectionRef.current;
+    if (!container) return;
+
+    const width = container.clientWidth
+    container.scrollBy({
+      left : direction === "left" ? -width : width,
+      behavior: "smooth"
+    })
+
+    const handleGo = () => handleScroll("right")
+
+  }
+
   return (
     <section
       // W-full 
       // Section tendra mas contenedores Hijos asi que puede ser un flex-col aqui 
       // con gap 
-      className="flex flex-col gap-30 relative w-full "
+      ref={sectionRef}
+      className="
+        snap-x snap-mandatory scroll-smooth overflow-x-auto 
+        flex flex-col gap-30 relative w-full "
       style={{ backgroundImage: "url(/dashboard/client-first-image.jpg)" }}
     >
       {/* Dark Overlay  */}
@@ -117,7 +143,6 @@ export default function Dashboard() {
 
       </div>
       
-      {/* Contenedor Seller  */}
       {/* Contenedor Seller + Demo Gif  */}
       <div className="flex gap-10">
         {/* Buyer/Tenant  */}
@@ -183,7 +208,6 @@ export default function Dashboard() {
       </div>
       
 
-      {/* Contenedor Landlord  */}
       {/* Contenedor Landlord + Demo Gif  */}
       <div className="flex gap-10">
         {/* Buyer/Tenant  */}
@@ -210,10 +234,10 @@ export default function Dashboard() {
           <div className="text-center md:text-center md:text-lg">
             
             <p className="whitespace-normal ">
-              Find your dream home easily. Explore all properties, 
-              search by what matters most to you, and keep track 
-              of your favorite listings. You can also reach out to
-              sellers directly from your dashboard.
+              Take full control of your rental properties in just a few steps.
+              List your apartments or houses, review tenant applications, manage
+              contracts and requests, and stay organized while keeping everything
+              under one simple, intuitive dashboard.
             </p>
           </div>
 
