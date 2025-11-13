@@ -173,7 +173,7 @@ export default function Dashboard() {
       </div>
 
       {/* Contenedor Seller + Demo Gif  */}
-      <div className="flex  md:items-center min-w-full snap-center pt-30 gap-10 relative bg-black/70 bg-blend-darken">
+      <div className="flex  md:items-center min-w-full snap-center gap-10 relative bg-black/70 bg-blend-darken">
         {/* Buyer/Tenant  */}
         <div
           className="
@@ -223,7 +223,7 @@ export default function Dashboard() {
       </div>
 
       {/* Contenedor Landlord + Demo Gif  */}
-      <div className="flex  md:items-center min-w-full snap-center pt-30 gap-10 relative bg-black/70 bg-blend-darken">
+      <div className="flex  md:items-center min-w-full snap-center gap-10 relative bg-black/70 bg-blend-darken">
         {/* Buyer/Tenant  */}
         <div
           className="
@@ -280,20 +280,20 @@ export default function Dashboard() {
             type="button"
             className="
               fixed left-4 top-1/2 -translate-y-1/2
-              bg-blue-600/30 hover:bg-blue-800/40 text-blue-700
+              bg-blue-600/30 hover:bg-blue-800/90 text-blue-700
               p-3 rounded-full z-50"
           >
-            <ChevronLeft size={32} />
+            <ChevronLeft color="white" size={32} />
           </button>
           <button
             onClick={() => handleScroll("right")}
             type="button"
             className="
               fixed right-4 top-1/2 -translate-y-1/2
-              bg-blue-600/30 hover:bg-blue-800/40 text-blue-700
+              bg-blue-600/30 hover:bg-blue-800/90 text-blue-700
               p-3 rounded-full z-50"
           >
-            <ChevronRight size={32} />
+            <ChevronRight color="white" size={32} />
           </button>
         </>
       )}
