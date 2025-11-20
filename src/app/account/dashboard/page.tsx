@@ -7,17 +7,17 @@ export default function Dashboard() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [showArrows, setShowArrows] = useState(false); // Controlo si se muestran las flechas
   const isGoingToIntro = useRef(false); //  Estado bandera para anular flechas al llegar a intro"
-
+  
   // Detectar cuando volvemos al INTRO
   useEffect(() => {
-    const container = sectionRef.current;  // Nodo DOM 
+    const container = sectionRef.current; // Nodo DOM 
     if (!container) return; // Limpiar
 
     const handleScrollCheck = () => {
-      // Si scrollLeft es menor a 50px, estamos en el INTRO
+       // Si scrollLeft es menor a 50px, estamos en el INTRO
       if (container.scrollLeft < 50) {
         setShowArrows(false);
-        isGoingToIntro.current = false; // Resetear bandera
+        isGoingToIntro.current = false;  // Resetear bandera
       } else if (!isGoingToIntro.current) {
         // Solo mostrar flechas si NO estamos yendo al INTRO
         setShowArrows(true);
@@ -61,36 +61,18 @@ export default function Dashboard() {
 
   return (
     <section
-      // W-full 
-      // Section tendra mas contenedores Hijos asi que puede ser un flex-col aqui con gap 
-      // Padre Snap mandatory 
       ref={sectionRef}
-      className="
-        snap-x snap-mandatory scroll-smooth overflow-x-hidden
-        flex relative h-screen"
+      className="snap-x snap-mandatory scroll-smooth overflow-x-auto overflow-y-hidden flex h-screen w-screen"
       style={{ backgroundImage: "url(/dashboard/client-first-image.jpg)" }}
     >
-      {/* Dark Overlay - lo movemos DENTRO de cada snap */}
-
-      {/* Contenedor Intro ( Snap-1 ) */}
+      {/* Contenedor Intro */}
       <div
-        className="
-          snap-center min-w-full
-          flex flex-col items-center 
-          relative z-10  gap-10 pt-30
-          border border-solid border-green-500 
-          md:gap-27 bg-black/70 bg-blend-darken" //  overlay integrado
+        className="snap-center flex-shrink-0 flex flex-col items-center justify-center relative z-10 gap-10 bg-black/70 bg-blend-darken"
+        style={{ width: '100vw' }}
       >
-        {/* Contenido ( Titulo y Desc ) */}
-        <h1 className="text-4xl text-white md:text-5xl"> Welcome, Visitor</h1>
-        {/* Descripcion  */}
-        <div
-          className="
-           flex flex-col justify-center items-center
-           px-1 gap-6 text-white
-           md:flex-row md:gap-30"
-        >
-          {/* Texto */}
+        <h1 className="text-4xl text-white md:text-5xl">Welcome, Visitor</h1>
+        
+        <div className="flex flex-col justify-center items-center px-4 gap-6 text-white md:flex-row md:gap-30">
           <div className="flex flex-col text-center gap-2 md:text-left md:text-lg">
             <strong className="text-blue-400 text-lg">
               Its great to have you here!
@@ -102,11 +84,7 @@ export default function Dashboard() {
           </div>
 
           <button
-            className="
-              px-4 py-2 rounded bg-[#141EE6]
-              text-lg font-bold
-              md:px-5 md:py-3 md:text-xl
-              hover:bg-[#141EE6]/70"
+            className="px-4 py-2 rounded bg-[#141EE6] text-lg font-bold md:px-5 md:py-3 md:text-xl hover:bg-[#141EE6]/70"
             type="button"
             onClick={handleGo}
           >
@@ -115,28 +93,17 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Contenedor Buyer/Tenant + Demo Gif  */}
-      <div className="flex md:items-center min-w-full snap-center gap-10 relative bg-black/70 bg-blend-darken"> {/* 👈 overlay aplicado aquí */}
-        {/* Buyer/Tenant  */}
-        <div
-          className="
-            flex flex-col items-center 
-            relative z-10 w-full gap-0.5
-            border border-solid border-green-500 
-            md:w-full md:gap-2"
-        >
-          {/* Contenido ( Titulo y Desc ) */}
+      {/* Contenedor Buyer/Tenant + Demo Gif */}
+      <div 
+        className="snap-center  flex-shrink-0 flex items-center justify-center gap-10 bg-black/70 bg-blend-darken px-8"
+        
+      >
+        <div className="flex flex-col items-center relative z-10 gap-2 max-w-2xl">
           <h1 className="text-4xl text-white md:text-5xl">Buyer/Tenant</h1>
-          {/* Linea azul  */}
-          <div className="h-1 w-57 bg-[var(--color-primary)] rounded md:w-75" />
-          {/* Descripcion  */}
-          <div
-            className="
-             pt-8 flex flex-col justify-center items-center
-             px-10 gap-8 text-white"
-          >
-            {/* Texto */}
-            <div className="text-center md:text-center md:text-lg">
+          <div className="h-1 w-60 bg-[#141EE6] rounded" />
+          
+          <div className="pt-8 flex flex-col justify-center items-center gap-8 text-white">
+            <div className="text-center md:text-lg">
               <p className="whitespace-normal">
                 Find your dream home easily. Explore all properties,
                 search by what matters most to you, and keep track
@@ -146,10 +113,7 @@ export default function Dashboard() {
             </div>
 
             <button
-              className="
-                px-4 py-2 rounded-2xl bg-[#141EE6]
-                text-xl font-bold
-                md:px-5 md:py-3 md:text-xl"
+              className="px-4 py-2 rounded-2xl bg-[#141EE6] text-xl font-bold md:px-5 md:py-3 hover:bg-[#141EE6]/70"
               type="button"
             >
               Start
@@ -157,43 +121,23 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Demo Gif  */}
-        <div className="hidden md:block border-2 border-solid border-green-400 h-120 w-400">
-          <p className="text-white text-center">
-            XXXXXXXXXXXXXXXXXX
-            XXXXXXXXXXXXXXXXXX
-            XXXXXXXXXXXXXXXXXX
-            XXXXXXXXXXXXXXXXXX
+        <div className="hidden md:flex items-center justify-center border-2 border-dashed border-blue-400 h-96 w-96 rounded-lg bg-black/30">
+          <p className="text-white text-center p-4">
+            Demo GIF para Buyers/Tenants
           </p>
-          <h1>
-            Aqui existira un gif demo para indicar como usar la plataforma
-            para los usuarios Buyers/Tenants
-          </h1>
         </div>
       </div>
 
-      {/* Contenedor Seller + Demo Gif  */}
-      <div className="flex  md:items-center min-w-full snap-center gap-10 relative bg-black/70 bg-blend-darken">
-        {/* Buyer/Tenant  */}
-        <div
-          className="
-            flex flex-col items-center 
-            relative z-10 w-100 gap-0.5
-            border border-solid border-green-500 
-            md:w-full md:gap-2"
-        >
-          {/* Contenido ( Titulo y Desc ) */}
+      {/* Contenedor Seller + Demo Gif */}
+      <div 
+        className="snap-center w-full flex-shrink-0 flex items-center justify-center gap-10 bg-black/70 bg-blend-darken px-8"
+      >
+        <div className="flex flex-col items-center relative z-10 gap-2 max-w-2xl">
           <h1 className="text-4xl text-white md:text-5xl">Seller</h1>
-          {/* Linea azul  */}
-          <div className="h-1 w-57 bg-[var(--color-primary)] rounded md:w-75" />
-          {/* Descripcion  */}
-          <div
-            className="
-             pt-8 flex flex-col justify-center items-center
-             px-10 gap-8 text-white"
-          >
-            {/* Texto */}
-            <div className="text-center md:text-center md:text-lg">
+          <div className="h-1 w-60 bg-[#141EE6] rounded" />
+          
+          <div className="pt-8 flex flex-col justify-center items-center gap-8 text-white">
+            <div className="text-center md:text-lg">
               <p className="whitespace-normal">
                 Promote your properties with ease and reach serious buyers fast.
                 Add detailed listings with photos, manage all your offers, and keep
@@ -203,10 +147,7 @@ export default function Dashboard() {
             </div>
 
             <button
-              className="
-                px-4 py-2 rounded-2xl bg-[#141EE6]
-                text-xl font-bold
-                md:px-5 md:py-3 md:text-xl"
+              className="px-4 py-2 rounded-2xl bg-[#141EE6] text-xl font-bold md:px-5 md:py-3 hover:bg-[#141EE6]/70"
               type="button"
             >
               Start
@@ -214,36 +155,24 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Demo Gif  */}
-        <div className="hidden md:block border-2 border-solid border-green-400 h-120 w-400">
-          <h1>Aqui existira un gif demo para indicar como usar la plataforma 
-            para los usuarios Sellers
-          </h1>
+        <div className="hidden md:flex items-center justify-center border-2 border-dashed border-blue-400 h-96 w-96 rounded-lg bg-black/30">
+          <p className="text-white text-center p-4">
+            Demo GIF para Sellers
+          </p>
         </div>
       </div>
 
-      {/* Contenedor Landlord + Demo Gif  */}
-      <div className="flex  md:items-center min-w-full snap-center gap-10 relative bg-black/70 bg-blend-darken">
-        {/* Buyer/Tenant  */}
-        <div
-          className="
-            flex flex-col items-center 
-            relative z-10 w-100 gap-0.5
-            border border-solid border-green-500 
-            md:w-full md:gap-2"
-        >
-          {/* Contenido ( Titulo y Desc ) */}
+      {/* Contenedor Landlord + Demo Gif */}
+      <div 
+        className="snap-center w-full flex-shrink-0 flex items-center justify-center gap-10 bg-black/70 bg-blend-darken px-8"
+        
+      >
+        <div className="flex flex-col items-center relative z-10 gap-2 max-w-2xl">
           <h1 className="text-4xl text-white md:text-5xl">Landlord</h1>
-          {/* Linea azul  */}
-          <div className="h-1 w-57 bg-[var(--color-primary)] rounded md:w-75" />
-          {/* Descripcion  */}
-          <div
-            className="
-             pt-8 flex flex-col justify-center items-center
-             px-10 gap-8 text-white"
-          >
-            {/* Texto */}
-            <div className="text-center md:text-center md:text-lg">
+          <div className="h-1 w-60 bg-[#141EE6] rounded" />
+          
+          <div className="pt-8 flex flex-col justify-center items-center gap-8 text-white">
+            <div className="text-center md:text-lg">
               <p className="whitespace-normal">
                 Take full control of your rental properties in just a few steps.
                 List your apartments or houses, review tenant applications, manage
@@ -253,10 +182,7 @@ export default function Dashboard() {
             </div>
 
             <button
-              className="
-                px-4 py-2 rounded-2xl bg-[#141EE6]
-                text-xl font-bold
-                md:px-5 md:py-3 md:text-xl"
+              className="px-4 py-2 rounded-2xl bg-[#141EE6] text-xl font-bold md:px-5 md:py-3 hover:bg-[#141EE6]/70"
               type="button"
             >
               Start
@@ -264,34 +190,27 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Demo Gif  */}
-        <div className="hidden md:block border-2 border-solid border-green-400 h-120 w-400">
-          <h1>Aqui existira un gif demo para indicar como usar la plataforma 
-            para los usuarios Landlords
-          </h1>
+        <div className="hidden md:flex items-center justify-center border-2 border-dashed border-blue-400 h-96 w-96 rounded-lg bg-black/30">
+          <p className="text-white text-center p-4">
+            Demo GIF para Landlords
+          </p>
         </div>
       </div>
 
-      {/* Flechas laterales  */}
+      {/* Flechas laterales */}
       {showArrows && (
         <>
           <button
             onClick={() => handleScroll("left")}
             type="button"
-            className="
-              fixed left-4 top-1/2 -translate-y-1/2
-              bg-blue-600/30 hover:bg-blue-800/90 text-blue-700
-              p-3 rounded-full z-50"
+            className="fixed left-4 top-1/2 -translate-y-1/2 bg-blue-600/30 hover:bg-blue-800/90 text-blue-700 p-3 rounded-full z-50 transition-colors"
           >
             <ChevronLeft color="white" size={32} />
           </button>
           <button
             onClick={() => handleScroll("right")}
             type="button"
-            className="
-              fixed right-4 top-1/2 -translate-y-1/2
-              bg-blue-600/30 hover:bg-blue-800/90 text-blue-700
-              p-3 rounded-full z-50"
+            className="fixed right-4 top-1/2 -translate-y-1/2 bg-blue-600/30 hover:bg-blue-800/90 text-blue-700 p-3 rounded-full z-50 transition-colors"
           >
             <ChevronRight color="white" size={32} />
           </button>
