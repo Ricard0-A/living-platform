@@ -4,6 +4,10 @@
   --color-primary: #141EE6;
   --background: #f4f6f7;
   --foreground: #171717;
+
+  /* Textos  */
+  --h1-size: clamp(1.75rem, calc(1.75rem + 2vw), 2.8rem);
+  --p-size: clamp(0.85rem, calc(0.90rem + 2vw), 1.2rem)
 }
 
 @theme inline {
@@ -36,6 +40,12 @@ body {
 
 h1 {
   font-family: var(--font-serif);
+  font-size: var(--h1-size);
+}
+
+p {
+  font-size: var(--p-size);
+  line-height: 1.6;
 }
 
 /* h2,

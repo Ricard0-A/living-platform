@@ -75,7 +75,7 @@ const Form = () => {
     <section className="flex flex-col md:flex-row w-full min-h-screen">
       {/* Columna Izquierda (Formulario y Stepper) */}
       <div className="md:w-1/2 flex flex-col items-center py-10 px-4 md:px-8 lg:px-16 ">
-        <h1 className="text-2xl font-bold mb-8 text-gray-800 self-start md:self-center">Introducing to Seller</h1>
+        <h1 className=" mb-8 text-gray-800 self-start md:self-center">Introducing to Seller</h1>
 
         {/* Contenedor del Stepper */}
         <div className="w-full flex items-center justify-center px-4 max-w-4xl mb-12">

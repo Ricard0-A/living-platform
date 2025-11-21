@@ -42,7 +42,7 @@ export default function Home() {
         <div className="text-gray-100 w-full flex justify-center mt-18 ps-5">
           <h1
             style={{ wordSpacing: "0.5rem" }}
-            className=" text-center text-5xl md:text-6xl"
+            className="pe-6 text-center text-5xl md:text-6xl md:pe-0"
           >
             Find your homeplace
           </h1>

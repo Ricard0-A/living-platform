@@ -59,7 +59,7 @@ const Navbar = () => {
               className="cursor-pointer flex items-center gap-2"
               onClick={() => setOpenLang(!openLang)}
             >
-              <h1>Languages</h1>
+              <h2>Languages</h2>
             </div>
             {/* Language Options ( ENG && ESP )  (Left side ) */}
             <div className="mt-2 left-0 flex space-x-4">
