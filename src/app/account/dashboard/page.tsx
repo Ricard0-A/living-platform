@@ -87,7 +87,7 @@ export default function Dashboard() {
         ref={sectionRef}
         className="
           flex h-full w-full
-          overflow-x-auto overflow-y-hidden 
+          overflow-x-hidden overflow-y-hidden 
           snap-x snap-mandatory scroll-smooth"
         style={{ backgroundImage: "url(/dashboard/client-first-image.jpg)", backgroundSize: 'cover' }}
       >
@@ -98,7 +98,7 @@ export default function Dashboard() {
             snap-center flex flex-col items-center flex-shrink-0
             md:pt-0 md:justify-center"
         >
-          <h1 className="text-white">Welcome, Visitor</h1>
+          <h1 className="text-white text-4xl ">Welcome, Visitor</h1>
           
           <div className="flex flex-col justify-center items-center px-4 gap-6 text-white md:flex-row md:gap-30">
             <div className="flex flex-col text-center gap-2 md:text-left md:text-lg">
@@ -173,7 +173,7 @@ export default function Dashboard() {
         >
           <div className="flex flex-col items-center relative z-10 gap-2 max-w-2xl">
             <div>
-              <h1 className="text-4xl text-white md:text-5xl">Seller</h1>
+              <h1 className="text-white">Seller</h1>
               <div className="mt-1 h-1 w-full bg-[#141EE6] rounded" />
             </div>
             
@@ -216,7 +216,7 @@ export default function Dashboard() {
             
             {/* Landlord  */}
             <div>
-              <h1 className="text-4xl text-white md:text-5xl">Landlord</h1>
+              <h1 className="text-white">Landlord</h1>
               <div className="mt-1 h-1 w-full bg-[#141EE6] rounded" />
             </div>
             
