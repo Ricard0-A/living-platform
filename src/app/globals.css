@@ -6,8 +6,9 @@
   --foreground: #171717;
 
   /* Textos  */
-  --h1-size: clamp(1.75rem, calc(1.75rem + 2vw), 2.8rem);
-  --p-size: clamp(0.85rem, calc(0.90rem + 2vw), 1.2rem)
+  --h1-size: clamp(1.60rem, calc(1.60rem + 2vw), 2rem);
+  --p-size: clamp(0.85rem, calc(0.85rem + 2vw), 1.1rem)
+
 }
 
 @theme inline {
@@ -38,14 +39,16 @@ body {
   /* font-family: var(--font-poppins);  Buena para toda la web o Titulos */
 }
 
-h1 {
-  font-family: var(--font-serif);
-  font-size: var(--h1-size);
-}
+@layer base {
+  h1 {
+    font-size: var(--h1-size);
+    font-weight: bold;
+  }
 
-p {
-  font-size: var(--p-size);
-  line-height: 1.6;
+  p {
+    font-size: var(--p-size);
+    line-height: 1.6;
+  }
 }
 
 /* h2,

@@ -25,8 +25,8 @@ const Login = () => {
                 </div>
                 {/* Texto  */}
                 <div className="flex flex-col mt-4 ms-20 gap-14">
-                    <p className="font-serif text-shadow-2xs text-center">Make the right move</p>
-                    <p className="font-serif text-shadow-2xs">Start living like you deserve</p>
+                    <h1 className="font-serif text-shadow-2xs text-center">Make the right move</h1>
+                    <h1 className="font-serif text-shadow-2xs">Start living like you deserve</h1>
                 </div>
             </div>
             
@@ -68,10 +68,10 @@ const Login = () => {
                     </div>
                 </form>
                  {/* Info Extra  */}
-                 <div className="flex flex-col gap-4 p-4" style={borderTest}>
+                 <div className="flex flex-col gap-4 " style={borderTest}>
                     {/* No tienes cuenta? Creala  */}
                     <h2>New over here? <strong className="text-blue-800">Create an account</strong></h2>
-                    <p>By sign in you will accept our <strong className="text-blue-800">cookies</strong> to perform a better user experience and protect your privacy</p>
+                    <p className="text-sm">By sign in you will accept our <strong className="text-blue-800">cookies</strong> to perform a better user experience and protect your privacy</p>
                 </div> 
             </section>
         </section>

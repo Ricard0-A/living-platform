@@ -75,7 +75,7 @@ const Form = () => {
     <section className="flex flex-col md:flex-row w-full min-h-screen">
       {/* Columna Izquierda (Formulario y Stepper) */}
       <div className="md:w-1/2 flex flex-col items-center py-10 px-4 md:px-8 lg:px-16 ">
-        <h1 className=" mb-8 text-gray-800 self-start md:self-center">Introducing to Seller</h1>
+        <h1 className="text-[29px] self-start md:self-center mb-8 text-gray-800 ">Introducing to Seller</h1>
 
         {/* Contenedor del Stepper */}
         <div className="w-full flex items-center justify-center px-4 max-w-4xl mb-12">
@@ -271,17 +271,16 @@ const Form = () => {
         style={{ 
             backgroundImage: "url(https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)", 
             backgroundSize: 'cover', 
-            backgroundPosition: 'center' 
         }}
       >
         {/* Capa overlay azul */}
         <div className="absolute inset-0 bg-[#0C02A1] opacity-80"></div>
 
         {/* Contenido de la Derecha */}
-        <div className="relative z-10 text-center max-w-md">
-          <h2 className="text-3xl font-bold mb-6">
+        <div className="flex flex-col justify-center items-center relative z-10 max-w-md mb-10 text-center ">
+          <h1 className="pb-10 text-[29px]">
             Almost there! Complete your data to get the Seller Benefits
-          </h2>
+          </h1>
           <ul className="text-left space-y-3">
             {sellerBenefits.map((benefit, index) => (
               <li key={index} className="flex items-start">
@@ -299,4 +298,3 @@ const Form = () => {
 };
 
 export default Form;
-
