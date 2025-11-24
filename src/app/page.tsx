@@ -24,34 +24,22 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >  
-        {/* Logo Box  */}
-        <div
-          className="
-        z-80 relative -start-4 top-15 w-47 h-47
-        md:-top-8 md:left-1 md:h-60 md:w-60"
-        >
-          <Image
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            alt="Lively Place Logo"
-            fill
-            src={"/logo-brand.png"}
-          />
-        </div>
-
-        {/* Main Title */}
-        <div className="text-gray-100 w-full flex justify-center mt-18 ps-5">
-          <h1
-            style={{ wordSpacing: "0.5rem" }}
-            className="pe-6 text-center md:pe-0"
-          >
-            Find your homeplace
-          </h1>
-        </div>
+        
 
         {/* Main Navigation */}
-        <section className="w-full">
+        <section className="w-full mt-60">
+          {/* Main Title */}
+          <div className="
+            flex justify-center w-full mt-18 ps-5 text-gray-100">
+            <h1
+              style={{ wordSpacing: "0.5rem" }}
+              className="pe-6 text-center md:pe-0"
+            >
+              Find your homeplace
+            </h1>
+          </div>
           {/* Top  */}
-          <div className="flex justify-center mt-20 ">
+          <div className="flex justify-center mt-12">
             <div className="text-gray-200 flex justify-center w-86 h-[2.7rem] gap-3 bg-transparent md:w-180 md:ms-19 ">
               <button className="flex-1 bg-[#0025AF] text-lg rounded ">
                 Buy

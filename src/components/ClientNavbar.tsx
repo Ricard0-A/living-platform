@@ -1,98 +1,155 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { User, LogOut, Menu, X } from "lucide-react";
+import { User, LogOut, Menu, X, ChevronRight } from "lucide-react";
 
 const ClientNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (isOpen) {
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      html.style.overflow = "";
+      body.style.overflow = "";
+    }
+
+    return () => {
+      html.style.overflow = "";
+      body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
-    <nav
-      className="
-      relative z-50 flex justify-between items-center
-      px-6 py-2 bg-white border-b shadow-md"
-    >
-      {/* LOGO */}
-      <div className="relative h-16 w-32 flex-shrink-0">
-        <Link href="/" aria-label="Go to home">
-          <Image
-            fill
-            alt="Main logo"
-            src="/logo-brand-fixed.png"
-            className="object-contain"
-          />
-        </Link>
-      </div>
-
-      {/* BOTÓN HAMBURGUESA (móvil) */}
-      <button
-        type="button"
-        className="md:hidden p-2 hover:text-blue-600 focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
+    <>
+      {/* NAVBAR DESKTOP Y MOBILE */}
+      <nav
+        className="
+        relative z-50 flex justify-between items-center
+        px-6 py-2 bg-white border-b shadow-md"
       >
-        {isOpen ? <X size={28} /> : <Menu size={28} />}
-      </button>
+        {/* LOGO */}
+        <div className="relative h-16 w-32 flex-shrink-0">
+          <Link href="/" aria-label="Go to home">
+            <Image
+              fill
+              alt="Main logo"
+              src="/logo-brand-fixed.png"
+              className="object-contain"
+            />
+          </Link>
+        </div>
 
-      {/* NAV ITEMS */}
-      <ul
-        className={`flex flex-col md:flex-row items-center gap-6 font-semibold list-none 
-        absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent 
-        border-t md:border-0 shadow-md md:shadow-none transition-all duration-300 
-        ${
-          isOpen
-            ? "opacity-100 visible"
-            : "opacity-0 invisible md:visible md:opacity-100"
-        }
-        md:justify-end md:gap-0 py-4 md:py-0 z-10`}
+        {/* BOTÓN HAMBURGUESA (móvil) */}
+        <button
+          type="button"
+          className="md:hidden p-2 hover:text-blue-600 focus:outline-none"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+
+        {/* NAV ITEMS DESKTOP */}
+        <ul className="hidden md:flex items-center gap-0 font-semibold list-none">
+          <li className="relative px-6 border-r border-gray-300">
+            <Link
+              href="/account/dashboard"
+              className="block hover:text-blue-600 text-lg relative group"
+            >
+              Dashboard
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+            </Link>
+          </li>
+
+          <li className="relative px-6 border-r border-gray-300">
+            <Link
+              href="/account/help"
+              className="block hover:text-blue-600 text-lg relative group"
+            >
+              Help
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+            </Link>
+          </li>
+
+          <li className="relative px-6 border-r border-gray-300">
+            <Link
+              href="/account/favorites"
+              className="hover:text-blue-600 flex items-center relative group"
+              aria-label="User profile"
+            >
+              <User width={24} height={24} />
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+            </Link>
+          </li>
+
+          <li className="relative px-6">
+            <button
+              type="button"
+              onClick={() => console.log("logout")}
+              className="flex items-center gap-2 hover:text-blue-600 relative group"
+            >
+              <span>Log out</span>
+              <LogOut height={22} width={22} />
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {/* NAVBAR MOBILE */}
+      <nav
+        className={`fixed inset-0 bg-black text-white z-20 transition-all duration-600 ease-in-out 
+    transform ${
+      isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+    } md:hidden`}
+        style={{ minHeight: "100vh !important", overflow: "auto !important" }}
       >
-        <li className="relative md:px-6 md:border-r md:border-gray-300">
-          <Link
-            href="/account/dashboard"
-            className="block hover:text-blue-600 text-lg px-4 py-2 md:px-0 relative group"
-            onClick={() => setIsOpen(false)}
-          >
-            Dashboard
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center hidden md:block"></span>
-          </Link>
-        </li>
-
-        <li className="relative md:px-6 md:border-r md:border-gray-300">
-          <Link
-            href="/account/help"
-            className="block hover:text-blue-600 text-lg px-4 py-2 md:px-0 relative group"
-            onClick={() => setIsOpen(false)}
-          >
-            Help
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center hidden md:block"></span>
-          </Link>
-        </li>
-
-        <li className="relative md:px-6 md:border-r md:border-gray-300">
-          <Link
-            href="/account/favorites"
-            className="hover:text-blue-600 flex items-center px-4 py-2 md:px-0 relative group"
-            aria-label="User profile"
-            onClick={() => setIsOpen(false)}
-          >
-            <User width={24} height={24} />
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center hidden md:block"></span>
-          </Link>
-        </li>
-
-        <li className="relative md:px-6">
-          <button
-            type="button"
-            onClick={() => console.log("logout")}
-            className="flex items-center gap-2 hover:text-blue-600 px-4 py-2 md:px-0 relative group"
-          >
-            <span>Log out</span>
-            <LogOut height={22} width={22} />
-          </button>
-        </li>
-      </ul>
-    </nav>
+        <div className="mt-30 w-full">
+          <ul className="flex flex-col gap-6 text-xl p-4">
+            <li className="flex items-center space-x-2">
+              <Link href="/account/dashboard" onClick={() => setIsOpen(false)}>
+                <span>Dashboard</span>
+              </Link>
+              <ChevronRight color="white" size={20} />
+            </li>
+            <li className="flex items-center space-x-2">
+              <Link href="/account/help" onClick={() => setIsOpen(false)}>
+                <span>Help</span>
+              </Link>
+              <ChevronRight color="white" size={20} />
+            </li>
+            <li className="flex items-center space-x-2">
+              <Link href="/account/favorites" onClick={() => setIsOpen(false)}>
+                <span>User Profile</span>
+              </Link>
+              <ChevronRight color="white" size={20} />
+            </li>
+            <li>
+              <div className="w-[50%] h-0.5 bg-white" />
+            </li>
+            <li className="flex items-center space-x-2">
+              <button
+                type="button"
+                onClick={() => {
+                  console.log("logout");
+                  setIsOpen(false);
+                }}
+                className="flex items-center gap-2"
+              >
+                <span>Log out</span>
+                <LogOut height={20} width={20} />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </>
   );
 };
 

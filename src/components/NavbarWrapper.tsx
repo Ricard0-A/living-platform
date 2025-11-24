@@ -1,5 +1,5 @@
-// src/components/NavbarWrapper.tsx
 "use client";
+// src/components/NavbarWrapper.tsx
 
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
