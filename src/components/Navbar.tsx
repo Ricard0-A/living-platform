@@ -134,7 +134,7 @@ const Navbar = () => {
                 relative -top-8 w-38 h-35`}
           >
             <Link href={`/`}>
-              <Image fill alt="Logo Brand to Home" src={"/logo-brand.png"} />
+              <Image fill alt="Logo Brand to Home" src={"/logo-brand-fixed.png"} />
             </Link>
           </div>
           {/* Transparent overlay */}
@@ -174,9 +174,10 @@ const Navbar = () => {
       </nav>
       {/* Open/Close Mobile Navbar */}
       <div
-        className={`absolute top-4 right-4 z-30 cursor-pointer md:hidden`}
+        className={`flex justify-between absolute w-full top-4 right-3 z-30 cursor-pointer md:hidden`}
         onClick={() => setIsOpen(!isOpen)}
       >
+        <Image  className="ps-7" height={130} width={130} alt="Logo" src={"/logo-brand-fixed.png"}/>
         {isOpen ? (
           <div className="p-5">
             <X className="scale-250" color="white" size={15} />
@@ -201,7 +202,7 @@ const Navbar = () => {
     }`}
         style={{ minHeight: "100vh !important", overflow: "auto !important" }}
       >
-        <div className="pt-40 w-full">
+        <div className="pt-30 w-full">
           <ul className="flex flex-col gap-6 text-xl p-4">
             <li className="flex items-center space-x-2">
               <span>Browse properties</span>
