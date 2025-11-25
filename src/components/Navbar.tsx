@@ -45,11 +45,11 @@ const Navbar = () => {
       body.style.overflow = "";
     };
   }, [isOpen]);
-
   return (
     <>
-      {/* ==========================  DESKTOP NAVBAR  ========================   */}
-      <nav className="hidden md:block shadow-md text-white bg-gray-100">
+      {/* ==========================            DESKTOP MOBILE          ========================   */}
+
+      <nav className="hidden md:block shadow-md text-white  bg-gray-100">
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
@@ -172,46 +172,39 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
-
-      {/* ==========================  MOBILE NAVBAR CONTAINER  ========================   */}
-      <nav className="md:hidden relative z-50 flex justify-between items-center px-6 py-2 bg-white border-b shadow-md">
-        {/* LOGO */}
-        <div className="relative h-16 w-32 flex-shrink-0">
-          <Link href="/" aria-label="Go to home">
-            <Image
-              fill
-              alt="Logo Brand to Home"
-              src="/logo-brand.png"
-              className="object-contain"
+      {/* Open/Close Mobile Navbar */}
+      <div
+        className={`absolute top-4 right-4 z-30 cursor-pointer md:hidden`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? (
+          <div className="p-5">
+            <X className="scale-250" color="white" size={15} />
+          </div>
+        ) : (
+          <div className={`p-5 ${isHome ? "" : "bg-blue-100"}`}>
+            <Menu
+              className="scale-250"
+              color={isHome ? "white" : "black"}
+              size={15}
             />
-          </Link>
-        </div>
+          </div>
+        )}
+      </div>
 
-        {/* BOTÓN HAMBURGUESA */}
-        <button
-          type="button"
-          className="p-2 hover:text-blue-600 focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </nav>
+      {/* ==========================  NAVBAR MOBILE ========================   */}
 
-      {/* ==========================  NAVBAR MOBILE FULLSCREEN  ========================   */}
       <nav
         className={`fixed inset-0 bg-black text-white z-20 transition-all duration-600 ease-in-out 
     transform ${
       isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-    } md:hidden`}
+    }`}
         style={{ minHeight: "100vh !important", overflow: "auto !important" }}
       >
         <div className="pt-40 w-full">
           <ul className="flex flex-col gap-6 text-xl p-4">
             <li className="flex items-center space-x-2">
-              <Link href="/properties" onClick={() => setIsOpen(false)}>
-                <span>Browse properties</span>
-              </Link>
+              <span>Browse properties</span>
               <ChevronRight color="white" size={20} />
             </li>
             <li className="flex items-center space-x-2">
@@ -234,19 +227,15 @@ const Navbar = () => {
               <ChevronRight color="white" size={20} />
             </li>
             <li className="flex items-center space-x-2">
-              <Link href="/" onClick={() => setIsOpen(false)}>
-                <span>Home</span>
-              </Link>
+              <span>Contact us</span>
               <ChevronRight color="white" size={20} />
             </li>
             <li className="flex items-center space-x-2">
-              <Link href="/about" onClick={() => setIsOpen(false)}>
-                <span>About us</span>
-              </Link>
+              <span>Get Evaluation</span>
               <ChevronRight color="white" size={20} />
             </li>
             <li>
-              <div className="mt-13 flex items-center justify-center mx-auto p-4 w-[52%] bg-[#0025AF]">
+              <div className="mt-13 flex items-center justify-center mx-auto p-4 w-[52%]  bg-[#0025AF]">
                 <h2 className="text-1xl">Sign In</h2>
               </div>
             </li>
