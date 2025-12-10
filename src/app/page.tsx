@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="h-180 w-full mt-[-5rem] overflow-hidden md:min-h-[116vh]"
+        className="h-100 w-full mt-[-5rem] overflow-hidden md:h-screen"
         style={{
           backgroundImage: "url(homes/uk-home-opacity-50.png)",
           backgroundPosition: "center",
