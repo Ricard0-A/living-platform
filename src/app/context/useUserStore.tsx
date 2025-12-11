@@ -1,93 +1,111 @@
 import { create } from "zustand";
 import { supabase } from "@/lib/supabaseClient";
 
-
 type UserData = {
   id: string;
   name: string | null;
   lastname: string | null;
   phone: string | null;
-  roles: string;
+  roles: string;       // (client, buyer, seller, etc)
   verified: boolean;
   status: string;
   created_at: string;
 };
 
+// ------------------------------
+// EL STORE
+// ------------------------------
+
 type UserStore = {
-    user : UserData | null;
-    loading : boolean;
-    fetchUser : () => Promise<void>; // Promesa que no retorna nada
-    logout: () => Promise<void>;
-}
+  user: UserData | null;
+  loading: boolean;
 
+  // < Actions >
+  fetchUser: () => Promise<void>;
+  updateUserRole: (newRole: string) => Promise<void>;
+  logout: () => Promise<void>;
 
-const useUserStore = create<UserStore>((set) => ({
-    // Similar a flux.js aqui tenemos el objeto con 
-    // la store y el actions 
+  // Selector para obtener el rol actual
+  getUserRole: () => string;
+};
 
-    // < Store >
-    user : null,
-    loading: true,
+const useUserStore = create<UserStore>((set, get) => ({
 
-    // < Actions > 
+  // < Store >
+  user: null,
+  loading: true,
 
-    // Action 1
-    fetchUser : async () => {
-        set({loading:true})
-        const { data : { session }} = await supabase.auth.getSession();
+  // < Actions >
 
-        if (!session) {
-            set({user: null, loading:false})
-            return;
-        }
-        const userId = session.user.id; // viene de la session acual
-
-        // 2- Consultar la tabla public.users con el ID que viene de la session actual 
-        // es decir consultaremos solo info de un usuario adecuado 
-
-        const { data, error} = await supabase.from("users")
-            .select("*")
-            .eq("id", userId)
-            .single()
-        // If 
-        if (error) {
-            console.log("Error fetching user", error.message)
-            set({user:null, loading:false});
-            return;
-        }
-        // De otra manera...
-        set({user:data, loading:false})
-    },
-
-    // Action 2 ( Actualizar rol ) => NewRole: String
-    updateUserRole: async (newRole: string) => {
+  // Action 1
+  fetchUser: async () => {
     set({ loading: true });
-    
+
     const { data: { session }} = await supabase.auth.getSession();
-    if (!session) return set({ loading: false });
-    
-    const { error } = await supabase
-        .from("users")
-        .update({ roles: newRole }) // Clave
-        .eq("id", session.user.id); // Actualiza al user correcto
+
+    if (!session) {
+      set({ user: null, loading: false });
+      return;
+    }
+
+    const userId = session.user.id;
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", userId)
+      .single();
 
     if (error) {
-        console.error("Error updating role:", error);
-        set({ loading: false });
-        return;
+      console.log("Error fetching user", error.message);
+      set({ user: null, loading: false });
+      return;
+    }
+
+    set({ user: data, loading: false });
+  },
+
+  // Action 2 (Actualiza rol en Supabase y refresca el usuario)
+  updateUserRole: async (newRole: string) => {
+    set({ loading: true });
+
+    const { data: { session }} = await supabase.auth.getSession();
+    if (!session) return set({ loading: false });
+
+    const { error } = await supabase
+      .from("users")
+      .update({ roles: newRole })
+      .eq("id", session.user.id);
+
+    if (error) {
+      console.error("Error updating role:", error);
+      set({ loading: false });
+      return;
     }
 
     // Refrescamos el usuario
-    await useUserStore.getState().fetchUser();
+    await get().fetchUser();
     set({ loading: false });
-   },
-   
-    // Action  3 
-   logout : async () => {
+  },
+
+  // Action 3
+  logout: async () => {
     await supabase.auth.signOut();
     set({ user: null });
-   }
+  },
 
+  // ------------------------------
+  // Selector clean
+  // ------------------------------
+  getUserRole: () => {
+    const user = get().user;
+
+    // si no hay user -> visitante
+    if (!user) return "guest";
+
+    // Supabase devuelve por defecto "client"
+    return user.roles; // buyer | seller | landlord | client
+  }
 }));
 
-export default useUserStore
+export default useUserStore;

@@ -1,6 +1,5 @@
 "use client";
 
-// Importamos nuestro store global donde está el user y rol
 import useUserStore  from "@/app/context/useUserStore";
 
 import { useRouter } from "next/navigation";
