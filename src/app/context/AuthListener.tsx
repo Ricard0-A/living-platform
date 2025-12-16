@@ -1,50 +1,37 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import useUserStore from "@/app/context/useUserStore";
 
 export default function AuthListener() {
-  const [emailConfirmed, setEmailConfirmed] = useState(false);
+  const fetchUser = useUserStore((state) => state.fetchUser);
+  const logout = useUserStore((state) => state.logout);
 
   useEffect(() => {
-    const checkUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+    console.log("AuthListener mounted");
 
-      if (user && user.email_confirmed_at) {
-        setEmailConfirmed(true);
+    // 1- Al cargar la app / refresh
+    fetchUser();
 
-        // Revisamos si ya existe en public.users
-        const { data: existingUser } = await supabase
-          .from("users")
-          .select("id")
-          .eq("id", user.id)
-          .single();
+    // 2- Escuchamos cambios de auth en Supabase
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event) => {
+        console.log("🔄 Auth event:", event);
 
-        if (!existingUser) {
-          const { error } = await supabase
-            .from("users")
-            .insert([{ id: user.id }]);
-          if (error) console.error("Error al crear perfil:", error.message);
+        if (event === "SIGNED_OUT") {
+          logout();
+        } else {
+          // SIGNED_IN, TOKEN_REFRESHED, etc
+          fetchUser();
         }
       }
-    };
-
-    checkUser();
-
-    // Escuchamos cambios de sesión (login, logout, confirmación, etc.)
-    const { data: listener } = supabase.auth.onAuthStateChange(() => {
-      checkUser();
-    });
+    );
 
     return () => {
       listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [fetchUser, logout]);
 
-  return (
-    <div className="fixed top-30 text-xl text-green-600 border border-solid border-green-400">
-      {emailConfirmed ? "✅ Email confirmado" : ""}
-    </div>
-  );
+  return null;
 }

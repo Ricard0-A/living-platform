@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronRight } from "lucide-react";
-import { usePathname } from "next/navigation";
 import useUserStore from "@/app/context/useUserStore";
 import { roleConfig, ValidRole } from "@/app/config/roles";
 
@@ -14,20 +13,33 @@ import { roleConfig, ValidRole } from "@/app/config/roles";
 // roles viene de supabase ya que USER es una store y sera llenada con objeto de datos 
 // entre ellos, roles = "client" || "seller" etc 
 
+// Flujo:
+
+// 1- ClientNavbar lee la store si un usuario ya se ha logeado con anterioridad y se almacena 
+// un store de user ( con su role : "client" "seller" etc )
+
+// 2- Usamos ese roles = "seller" por ej: y lo usamos para decidir que hacer con Config/roles.tsx
+// ahora config solo se basara en Seller y luego iteraremos el array de "Seller" para que el 
+// Navbar especial para un usuario de Seller 
+
 const ClientNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
 
-  // Tomamos el rol raw desde el store
-  const rawRole: string = useUserStore((state) => state.user?.roles) || "none";
+  // Actions del store
+  const logout = useUserStore((state) => state.logout);
 
-  // Validamos el rol contra roleConfig
+  // 1 Tomamos el rol desde la store
+  const rawRole: string =
+    useUserStore((state) => state.user?.roles) || "none";
+
+  // 2️- ( IMPORTANTE ) Validamos el rol contra el config
   const safeRole: ValidRole =
     rawRole in roleConfig ? (rawRole as ValidRole) : "client";
 
-  // Config para este usuario
+  // 3️- Config final según el rol
   const config = roleConfig[safeRole];
 
+  // Mantiene tu lógica original de overflow
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
@@ -48,7 +60,7 @@ const ClientNavbar = () => {
 
   return (
     <>
-      {/* NAVBAR DESKTOP */}
+      {/* ================= DESKTOP NAVBAR ================= */}
       <nav className="relative z-50 flex justify-between items-center px-6 py-2 bg-white border-b shadow-md">
         {/* LOGO */}
         <div className="relative h-16 w-32 flex-shrink-0">
@@ -62,7 +74,7 @@ const ClientNavbar = () => {
           </Link>
         </div>
 
-        {/* BOTON HAMBURGUESA (solo móvil) */}
+        {/* BOTÓN HAMBURGUESA */}
         <button
           type="button"
           className="md:hidden p-2 hover:text-blue-600 focus:outline-none"
@@ -79,23 +91,31 @@ const ClientNavbar = () => {
               key={i}
               className="relative px-6 border-r border-gray-300 flex items-center"
             >
-              <Link
-                href={item.route}
-                className="hover:text-blue-600 text-lg relative group flex items-center gap-2"
-              >
-                {/* Ícono opcional */}
-                {item.icon ? <item.icon size={22} /> : null}
-
-                <span>{item.label}</span>
-
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
-              </Link>
+              {item.action === "logout" ? (
+                <button
+                  onClick={async () => {
+                    await logout();     // cierre de sesión
+                  }}
+                  className="hover:text-red-600 text-lg flex items-center gap-2"
+                >
+                  {item.icon && <item.icon size={22} />}
+                  <span>{item.label}</span>
+                </button>
+              ) : (
+                <Link
+                  href={item.route!}
+                  className="hover:text-blue-600 text-lg flex items-center gap-2"
+                >
+                  {item.icon && <item.icon size={22} />}
+                  <span>{item.label}</span>
+                </Link>
+              )}
             </li>
           ))}
         </ul>
       </nav>
 
-      {/* NAVBAR MOBILE */}
+      {/* ================= MOBILE NAVBAR ================= */}
       <nav
         className={`fixed inset-0 bg-gray-200 text-black z-20 transition-all duration-600 ease-in-out 
         transform ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"} md:hidden`}
@@ -107,14 +127,28 @@ const ClientNavbar = () => {
                 key={i}
                 className="flex items-center justify-between py-6 px-4 border-b border-gray-400 hover:bg-gray-300 transition-all duration-200"
               >
-                <Link
-                  href={item.route}
-                  onClick={() => setIsOpen(false)}
-                  className="flex-1 flex items-center gap-2"
-                >
-                  {item.icon ? <item.icon size={22} /> : null}
-                  <span>{item.label}</span>
-                </Link>
+                {item.action === "logout" ? (
+                  <button
+                    onClick={async () => {
+                      await logout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center gap-2 w-full text-left"
+                  >
+                    {item.icon && <item.icon size={22} />}
+                    <span>{item.label}</span>
+                  </button>
+                ) : (
+                  <Link
+                    href={item.route!}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2"
+                  >
+                    {item.icon && <item.icon size={22} />}
+                    <span>{item.label}</span>
+                  </Link>
+                )}
+
                 <ChevronRight color="black" size={20} />
               </li>
             ))}
