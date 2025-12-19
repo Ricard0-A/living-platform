@@ -26,7 +26,7 @@ export type NavbarItem = {
   icon?: any;
 };
 
-export type ValidRole = "client" | "seller" | "landlord" | "none";
+export type ValidRole = "client" | "seller" | "landlord";
 
 
 /*
@@ -70,10 +70,4 @@ export const roleConfig: Record<
     ],
   },
 
-  none: {
-    navbarItems: [
-      { label: "Help", route: "/account/help" },
-      { label: "Profile", route: "/account/profile", icon: CircleUserRound },
-    ],
-  },
 };

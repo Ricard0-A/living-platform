@@ -19,8 +19,8 @@ import { roleConfig, ValidRole } from "@/app/config/roles";
 // un store de user ( con su role : "client" "seller" etc )
 
 // 2- Usamos ese roles = "seller" por ej: y lo usamos para decidir que hacer con Config/roles.tsx
-// ahora config solo se basara en Seller y luego iteraremos el array de "Seller" para que el 
-// Navbar especial para un usuario de Seller 
+// ahora config solo se basa en Seller y luego iteraremos el array de "Seller" para un 
+// Navbar especial de usuario Seller.
 
 const ClientNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,15 +28,14 @@ const ClientNavbar = () => {
   // Actions del store
   const logout = useUserStore((state) => state.logout);
 
-  // 1 Tomamos el rol desde la store
-  const rawRole: string =
-    useUserStore((state) => state.user?.roles) || "none";
+  // 1️ Tomamos el rol DESDE EL SELECTOR
+  const role = useUserStore((state) => state.getUserRole());
 
-  // 2️- ( IMPORTANTE ) Validamos el rol contra el config
+  // 2️ Validamos contra el config
   const safeRole: ValidRole =
-    rawRole in roleConfig ? (rawRole as ValidRole) : "client";
+    role in roleConfig ? (role as ValidRole) : "client";
 
-  // 3️- Config final según el rol
+  // 3️ Config final
   const config = roleConfig[safeRole];
 
   // Mantiene tu lógica original de overflow
@@ -74,7 +73,7 @@ const ClientNavbar = () => {
           </Link>
         </div>
 
-        {/* BOTÓN HAMBURGUESA */}
+        {/* BOTÓN HAMBURGUESA ( Solo para movil )*/}
         <button
           type="button"
           className="md:hidden p-2 hover:text-blue-600 focus:outline-none"
@@ -91,16 +90,19 @@ const ClientNavbar = () => {
               key={i}
               className="relative px-6 border-r border-gray-300 flex items-center"
             >
+              {/* Cuando en toda la iteracion item.action sea logout, crea el boton logout  */}
               {item.action === "logout" ? (
-                <button
-                  onClick={async () => {
-                    await logout();     // cierre de sesión
-                  }}
-                  className="hover:text-red-600 text-lg flex items-center gap-2"
-                >
-                  {item.icon && <item.icon size={22} />}
-                  <span>{item.label}</span>
-                </button>
+                <Link href={"/login"}>
+                  <button
+                    onClick={async () => {
+                      await logout();     // cierre de sesión
+                    }}
+                    className="hover:cursor-pointer hover:text-red-600 text-lg flex items-center gap-2"
+                  >
+                    {item.icon && <item.icon size={22} />}
+                    <span>{item.label}</span>
+                  </button>
+                </Link>
               ) : (
                 <Link
                   href={item.route!}
