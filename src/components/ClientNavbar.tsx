@@ -7,6 +7,17 @@ import { Menu, X, ChevronRight } from "lucide-react";
 import useUserStore from "@/app/context/useUserStore";
 import { roleConfig, ValidRole } from "@/app/config/roles";
 
+
+// ACTUALIZAR LUEGO ESTE COMPONENTE: 
+
+// Se tiene que negar el renderizado de este Clientnavbar cuando el user no este logeado.
+// Ya que este componente es global 
+
+
+// ==================================================
+// ==================================================
+
+
 // Proposito de ClientNavbar: 
 
 // 1- Es dinamico ya que lee la STORE de user.roles 

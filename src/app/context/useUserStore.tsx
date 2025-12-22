@@ -1,3 +1,9 @@
+
+
+// ==============================
+// IMPORTS
+// ==============================
+
 import { create } from "zustand";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -50,8 +56,14 @@ type UserStore = {
 
 const useUserStore = create<UserStore>((set, get) => ({
   // ---------- STATE ----------
+  // STORE 
+
   user: null,
   loading: true,
+
+  // =============
+  // ACTIONS 
+  // =============
 
   // ==========================
   // 1️- FETCH USER
@@ -80,7 +92,7 @@ const useUserStore = create<UserStore>((set, get) => ({
     // Si explota aqui quiere decir que id no es igual a userId, id de auth.users y tabla users 
     // no son iguales, usuario no existe.
     if (error) {
-      console.log("AQUIII Error fetching user:", error.message);  
+      console.log("Error fetching user:", error.message);  
       set({ user: null, loading: false });
       return;
     }

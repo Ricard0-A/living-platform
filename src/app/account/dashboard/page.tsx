@@ -2,6 +2,10 @@
 import { useRef, useState, useEffect } from "react"; 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import useUserStore from "@/app/context/useUserStore";
+import FullScreenLoader from "@/components/FullScreenLoader";
+
 
 export default function Dashboard() {
   // Constante Ref para acceder al contenedor principal con el fin de scroll
@@ -10,6 +14,19 @@ export default function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0); // Estado para saber en qué slide estamos
   const isGoingToIntro = useRef(false); // Estado bandera para anular flechas al llegar a intro
   
+  const router = useRouter();
+  
+  const { user, loading } = useUserStore();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login");
+    }
+    
+  }, [loading, user , router])
+
+  
+
   // Detectar cuando volvemos al INTRO y calcular el índice activo
   useEffect(() => {
     const container = sectionRef.current; // Nodo DOM 
@@ -43,6 +60,9 @@ export default function Dashboard() {
       container.removeEventListener("scroll", handleScrollCheck);
     };
   }, []);
+
+  // SI EL USUARIO NO ESTA LOGEADO 
+  if ( !user ) return <FullScreenLoader/>
 
   const handleScroll = (direction: "left" | "right") => {
     // Container es igual al nodo del DOM y ahora puede acceder a cosas como .focus() etc 
@@ -79,6 +99,8 @@ export default function Dashboard() {
     handleScroll("right");
     // Aqui ya no va setArrowsTrue ( Se maneja todo desde useEffect )
   };
+
+  
 
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-black">
