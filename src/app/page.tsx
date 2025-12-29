@@ -13,19 +13,16 @@ import {
 } from "lucide-react";
 
 // import { url } from "inspector";
-
 export default function Home() {
   return (
     <>
       <div
         className="h-100 w-full mt-[-5rem] overflow-hidden md:h-screen"
         style={{
-          backgroundImage: "url(homes/uk-home-opacity-50.png)",
+          backgroundImage: "url(/homes/uk-home-opacity-50.png)",
           backgroundPosition: "center",
         }}
       >  
-        
-
         {/* Main Navigation */}
         <section className="w-full mt-60">
           {/* Main Title */}

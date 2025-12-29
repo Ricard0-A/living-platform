@@ -67,13 +67,13 @@ const ClientNavbar = () => {
       body.style.overflow = "";
     };
   }, [isOpen]);
-
   return (
     <>
       {/* ================= DESKTOP NAVBAR ================= */}
       <nav className="relative z-50 flex justify-between items-center px-6 py-2 bg-white border-b shadow-md">
         {/* LOGO */}
         <div className="relative h-16 w-32 flex-shrink-0">
+          
           <Link href="/" aria-label="Go to home">
             <Image
               fill
