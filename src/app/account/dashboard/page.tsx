@@ -209,7 +209,7 @@ export default function Dashboard() {
                   a single dashboard
                 </p>
               </div>
-              <Link href={"account/form?role=seller"}>
+              <Link href={"/account/form?role=seller"}>
                 <button
                   className="px-4 py-2 rounded-2xl bg-[#141EE6] text-xl font-bold md:px-5 md:py-3 hover:bg-[#141EE6]/70"
                   type="button"
@@ -253,7 +253,7 @@ export default function Dashboard() {
                   contracts and requests.
                 </p>
               </div>
-              <Link href={"account/form?role=landlord"}>
+              <Link href={"/account/form?role=landlord"}>
                 <button
                   className="px-4 py-2 rounded-2xl bg-[#141EE6] text-xl font-bold md:px-5 md:py-3 hover:bg-[#141EE6]/70"
                   type="button"
