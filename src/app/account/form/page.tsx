@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CircleCheck } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
 type Role = "buyer" | "seller" | "landlord";
 
@@ -74,11 +75,7 @@ const Form = () => {
     roleParam && ROLE_CONFIG[roleParam] ? roleParam : "buyer";
   const config = ROLE_CONFIG[role];
 
-  const steps = [
-    { label: "Step 1" },
-    { label: "Step 2" },
-    { label: "Step 3" },
-  ];
+  const steps = [{ label: "Step 1" }, { label: "Step 2" }, { label: "Step 3" }];
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -88,7 +85,26 @@ const Form = () => {
   const [minBudget, setMinBudget] = useState("");
   const [maxBudget, setMaxBudget] = useState("");
 
-  const handleContinue = () => {
+  //  ESTADOS 
+  const [registrationCompleted, setRegistrationCompleted] = useState(false);
+  const [activeBenefitIndex, setActiveBenefitIndex] = useState(-1);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Animación de checks
+  useEffect(() => {
+    if (!registrationCompleted) return;
+
+    let index = 0;
+    const interval = setInterval(() => {
+      setActiveBenefitIndex(index);
+      index++;
+      if (index >= config.benefits.length) clearInterval(interval);
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, [registrationCompleted, config.benefits.length]);
+
+  const handleContinue = async () => {
     if (currentStep === 0) {
       if (!firstName.trim() || !lastName.trim()) {
         alert("Please complete your name and last name");
@@ -113,17 +129,27 @@ const Form = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
-      console.log("FORM DATA:", {
-        role,
-        firstName,
-        lastName,
-        phone,
-        budget: config.showBudget
-          ? { min: minBudget, max: maxBudget }
-          : null,
-      });
+      //  FINAL: guardamos y actualizamos rol
+      setIsSaving(true);
 
-      alert("Registration Complete!");
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        await supabase
+          .from("users")
+          .update({
+            name: firstName,
+            lastname: lastName,
+            phone,
+            roles: role,
+          })
+          .eq("id", user.id);
+      }
+
+      setIsSaving(false);
+      setRegistrationCompleted(true);
     }
   };
 
@@ -138,6 +164,7 @@ const Form = () => {
 
   return (
     <section className="flex flex-col md:flex-row w-full min-h-screen">
+      {/* IZQUIERDA */}
       <div className="md:w-1/2 flex flex-col items-center py-10 px-4 md:px-8 lg:px-16">
         <h1 className="text-[29px] self-start md:self-center mb-8 text-gray-800">
           {config.introTitle}
@@ -159,7 +186,7 @@ const Form = () => {
               >
                 <div className="relative flex flex-col items-center z-10">
                   <span
-                    className={`mb-2 text-sm font-semibold whitespace-nowrap ${
+                    className={`mb-2 text-sm font-semibold ${
                       isCompleted || isCurrent
                         ? "text-blue-700"
                         : "text-gray-500"
@@ -167,7 +194,6 @@ const Form = () => {
                   >
                     {step.label}
                   </span>
-
                   <div
                     className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${
                       isCompleted
@@ -177,10 +203,9 @@ const Form = () => {
                         : "border-gray-300 bg-gray-300"
                     }`}
                   >
-                    {isCompleted ? "✓" : isCurrent ? <div className="h-2.5 w-2.5 rounded-full bg-blue-700" /> : null}
+                    {isCompleted ? "✓" : null}
                   </div>
                 </div>
-
                 {!isLastStep && (
                   <div
                     className={`flex-auto border-t-2 mx-2 mt-6 ${
@@ -199,70 +224,42 @@ const Form = () => {
             {currentStep === 0 && (
               <>
                 <h2 className={sectionTitleClasses}>What is your name?</h2>
-                <input
-                  className={inputClasses}
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <input
-                  className={inputClasses}
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
+                <input className={inputClasses} placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                <input className={inputClasses} placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </>
             )}
 
             {currentStep === 1 && (
               <>
-                <h2 className={sectionTitleClasses}>
-                  What is your phone number?
-                </h2>
-                <p className="text-sm text-gray-500 mb-2">
-                  {config.step2Description}
-                </p>
-                <input
-                  className={inputClasses}
-                  placeholder="Phone number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
+                <h2 className={sectionTitleClasses}>What is your phone number?</h2>
+                <p className="text-sm text-gray-500 mb-2">{config.step2Description}</p>
+                <input className={inputClasses} placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} />
               </>
             )}
 
             {currentStep === 2 && (
               <>
-                <h2 className={sectionTitleClasses}>
-                  {config.step3Title}
-                </h2>
-                <p className="text-sm text-gray-500 mb-4">
-                  {config.step3Description}
-                </p>
+                <h2 className={sectionTitleClasses}>{config.step3Title}</h2>
+                <p className="text-sm text-gray-500 mb-4">{config.step3Description}</p>
 
                 {config.showBudget ? (
                   <>
-                    <input
-                      className={inputClasses}
-                      placeholder="Min price"
-                      value={minBudget}
-                      onChange={(e) => setMinBudget(e.target.value)}
-                    />
-                    <input
-                      className={inputClasses}
-                      placeholder="Max price"
-                      value={maxBudget}
-                      onChange={(e) => setMaxBudget(e.target.value)}
-                    />
+                    <input className={inputClasses} placeholder="Min price" value={minBudget} onChange={(e) => setMinBudget(e.target.value)} />
+                    <input className={inputClasses} placeholder="Max price" value={maxBudget} onChange={(e) => setMaxBudget(e.target.value)} />
                   </>
                 ) : (
-                  <div className="text-gray-700 space-y-2 text-sm">
-                    <p>
-                      <strong>Name:</strong> {firstName} {lastName}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {phone}
-                    </p>
+                  <div className="text-gray-700 text-sm space-y-2">
+                    <p><strong>Name:</strong> {firstName} {lastName}</p>
+                    <p><strong>Phone:</strong> {phone}</p>
+                  </div>
+                )}
+
+                {registrationCompleted && (
+                  <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm">
+                    <strong>Registration completed successfully.</strong>
+                    <br />
+                    You are now registered as{" "}
+                    <span className="font-semibold capitalize">{role}</span>.
                   </div>
                 )}
               </>
@@ -272,9 +269,12 @@ const Form = () => {
           <div className="mt-8">
             <button
               onClick={handleContinue}
+              disabled={isSaving}
               className="w-full bg-[var(--color-primary)] text-white py-3 rounded-md font-semibold"
             >
-              {currentStep === steps.length - 1
+              {isSaving
+                ? "Saving..."
+                : currentStep === steps.length - 1
                 ? "Finish Registration"
                 : "Continue"}
             </button>
@@ -291,19 +291,23 @@ const Form = () => {
         </div>
       </div>
 
-      {/* DERECHA*/}
+      {/* DERECHA  */}
       <div className="hidden md:flex md:w-1/2 relative flex-col items-center justify-center p-8 text-white bg-slate-800">
-        <div className="inset-0 bg-[#0C02A1] absolute opacity-80 z-10"></div>
-        <div className="bg-[url('/dashboard/buyer-background.webp')] bg-cover bg-center absolute inset-0 opacity-100"></div>
+        <div className="absolute inset-0 bg-[#0C02A1] opacity-80 z-10" />
+        <div className="absolute inset-0 bg-[url('/dashboard/buyer-background.webp')] bg-cover bg-center" />
 
         <div className="relative z-10 max-w-md text-center">
-          <h1 className="pb-10 text-[29px]">
-            {config.benefitsTitle}
-          </h1>
+          <h1 className="pb-10 text-[29px]">{config.benefitsTitle}</h1>
           <ul className="text-left space-y-3">
             {config.benefits.map((benefit, index) => (
               <li key={index} className="flex items-start">
-                <CircleCheck className="mr-3 mt-1" />
+                <CircleCheck
+                  className={`mr-3 mt-1 transition-all duration-300 ${
+                    registrationCompleted && index <= activeBenefitIndex
+                      ? "text-green-400 scale-110"
+                      : "text-white"
+                  }`}
+                />
                 <span>{benefit}</span>
               </li>
             ))}
