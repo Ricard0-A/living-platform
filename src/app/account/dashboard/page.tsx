@@ -22,7 +22,7 @@ export default function Dashboard() {
   }, [loading, user, router]);
 
   //  Mientras carga sesión
-  if (loading || !user) {
+  if (!user) {
     return null;
   }
 

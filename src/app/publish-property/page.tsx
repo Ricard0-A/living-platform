@@ -65,7 +65,7 @@ export default function CreatePropertyForm() {
     setLoading(true);
 
     const payload = {
-      user_id: user.id,
+      seller_id: user.id,
       title: form.title,
       price: Number(form.price),
       description: form.description,

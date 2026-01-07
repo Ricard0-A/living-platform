@@ -131,7 +131,7 @@ const Navbar = () => {
         >
           <div
             className={`hidden ${isHome ? "md:hidden" : "md:block"}
-                relative -top-8 w-38 h-35`}
+                relative  w-25 h-16`}
           >
             <Link href={`/`}>
               <Image fill alt="Logo Brand to Home" src={"/logo-brand-fixed.png"} />

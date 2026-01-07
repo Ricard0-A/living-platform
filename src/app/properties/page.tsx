@@ -35,6 +35,10 @@ type ApartmentProperty = {
   title?: string;
   price?: number;
   description?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  images?: string[];
+  main_image?: string | null;
 };
 
 type WriteAndSearch = {
@@ -204,56 +208,65 @@ export const Properties = () => {
 
   // JSX para mostrar contenido de busqueda / Parametro Dinamico
   const renderCards = (data: ApartmentProperty[]) => {
-    return data.map((unit, index) => (
+  return data.map((unit, index) => (
+    <Link
+      key={unit.id}
+      href={`/properties/${unit.id}`}
+      className="block"
+    >
       <article
-        key={unit?.id}
         className="
-        bg-white rounded-xl py-4 shadow-sm
-        hover:shadow-md transition-shadow duration-300
+          bg-white rounded-xl py-4 shadow-sm
+          hover:shadow-md transition-shadow duration-300
+          cursor-pointer
         "
       >
         {/* Imagen */}
         <img
-          src={apartments[index]?.urls?.regular}
-          alt={`Image of ${unit?.title}`}
-          className="w-full h-48 px-2 object-cover bg-cover"
+          src={
+            unit.main_image ||
+            apartments[index]?.urls?.regular ||
+            "/placeholder.jpg"
+          }
+          alt={unit.title || "Property image"}
+          className="w-full h-48 px-2 object-cover"
         />
 
         {/* Contenido */}
         <div className="p-4 space-y-5">
-          <div className="w-full">
-            <h2 className="break-words font-bold">{unit?.description}</h2>
-          </div>
-          {/* Bath, Bed, squarefeets  */}
-          <div className="text-sm flex gap-12">
+          <h2 className="font-bold">
+            {unit.title || "Property"}
+          </h2>
+
+          {/* Features */}
+          <div className="text-sm flex gap-8">
             <div className="flex gap-1">
               <Bath />
-              <span>2</span>
+              <span>{unit.bathrooms ?? 1}</span>
               <span>Baths</span>
             </div>
             <div className="flex gap-1">
               <BedSingle />
-              <span>2</span>
+              <span>{unit.bedrooms ?? 1}</span>
               <span>Beds</span>
             </div>
-            <div className="flex gap-1">
-              <Landmark />
-              <span>3540,22 sqfts</span>
-            </div>
           </div>
+
           {/* Precio */}
           <div className="flex justify-between items-center">
-            <p className="text-blue-800 font-bold text-base">
-              £ {unit?.price?.toLocaleString()}
+            <p className="text-blue-800 font-bold">
+              £ {unit.price?.toLocaleString()}
             </p>
-            <button className="text-sm text-blue-600 hover:underline">
-              View Details
-            </button>
+            <span className="text-sm text-blue-600">
+              View Details →
+            </span>
           </div>
         </div>
       </article>
-    ));
-  };
+    </Link>
+  ));
+};
+
 
   // =========================================================================================================
   //                ↓                   R E N D E R     L O G I C                   ↓
