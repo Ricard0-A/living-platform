@@ -42,7 +42,7 @@ export default function PropertyDetailPage() {
 
   const handleCreateAppointment = async () => {
     if (!date || !time) {
-      alert("Completa fecha y hora");
+      alert("Please complete date and time");
       return;
     }
 
@@ -53,7 +53,7 @@ export default function PropertyDetailPage() {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      alert("Debes estar logueado");
+      alert("You must be logged in");
       setSubmitting(false);
       return;
     }
@@ -71,20 +71,20 @@ export default function PropertyDetailPage() {
 
     if (error) {
       console.error(error);
-      alert("Error al agendar cita");
+      alert("Error scheduling appointment");
       return;
     }
 
     setShowAppointmentModal(false);
     setDate("");
     setTime("");
-    alert("Solicitud enviada al vendedor");
+    alert("Request sent to the seller");
   };
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0b1c2d] text-white">
-        Cargando propiedad...
+        Loading property...
       </div>
     );
   }
@@ -113,19 +113,19 @@ export default function PropertyDetailPage() {
         {/* MAIN */}
         <div className="md:col-span-2 space-y-6">
           <section className="bg-[#112a45] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-4">Descripción</h2>
+            <h2 className="text-2xl font-semibold mb-4">Description</h2>
             <p className="text-gray-200 leading-relaxed">
               {property.description}
             </p>
           </section>
 
           <section className="bg-[#112a45] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-6">Detalles</h2>
+            <h2 className="text-2xl font-semibold mb-6">Details</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <DetailItem label="Dormitorios" value={property.bedrooms} />
-              <DetailItem label="Baños" value={property.bathrooms} />
-              <DetailItem label="Área" value={`${property.area} m²`} />
-              <DetailItem label="Tipo" value={property.property_type} />
+              <DetailItem label="Bedrooms" value={property.bedrooms} />
+              <DetailItem label="Bathrooms" value={property.bathrooms} />
+              <DetailItem label="Area" value={`${"130"} m²`} />
+              <DetailItem label="Type" value={"Flat"} />
             </div>
           </section>
         </div>
@@ -133,7 +133,7 @@ export default function PropertyDetailPage() {
         {/* SIDEBAR */}
         <aside className="bg-[#112a45] rounded-2xl p-6 space-y-6 h-fit">
           <div>
-            <p className="text-gray-400 text-sm">Precio</p>
+            <p className="text-gray-400 text-sm">Price</p>
             <p className="text-3xl font-bold text-blue-400">
               ${property.price}
             </p>
@@ -143,14 +143,14 @@ export default function PropertyDetailPage() {
             onClick={() => setShowAppointmentModal(true)}
             className="w-full bg-blue-600 hover:bg-blue-700 transition rounded-xl py-3 font-semibold"
           >
-            Agendar visita
+            Schedule visit
           </button>
 
           <button
             onClick={() => router.push("/properties")}
             className="w-full border border-blue-500 rounded-xl py-3 hover:bg-blue-500/10"
           >
-            Volver a propiedades
+            Back to properties
           </button>
         </aside>
       </div>
@@ -160,13 +160,13 @@ export default function PropertyDetailPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="bg-[#112a45] rounded-2xl w-full max-w-md p-6 space-y-6">
             <h3 className="text-2xl font-semibold text-center">
-              Agendar visita
+              Schedule visit
             </h3>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-300 mb-1">
-                  Fecha
+                  Date
                 </label>
                 <input
                   type="date"
@@ -178,7 +178,7 @@ export default function PropertyDetailPage() {
 
               <div>
                 <label className="block text-sm text-gray-300 mb-1">
-                  Hora
+                  Time
                 </label>
                 <input
                   type="time"
@@ -194,7 +194,7 @@ export default function PropertyDetailPage() {
                 onClick={() => setShowAppointmentModal(false)}
                 className="w-full border border-blue-500 rounded-xl py-2 hover:bg-blue-500/10"
               >
-                Cancelar
+                Cancel
               </button>
 
               <button
@@ -202,7 +202,7 @@ export default function PropertyDetailPage() {
                 disabled={submitting}
                 className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl py-2 font-semibold disabled:opacity-50"
               >
-                {submitting ? "Enviando..." : "Confirmar"}
+                {submitting ? "Sending..." : "Confirm"}
               </button>
             </div>
           </div>

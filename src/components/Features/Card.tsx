@@ -18,7 +18,7 @@ const Card = ({
   return (
     // Padre de todas las Cards
     <div
-      className="relative flex flex-col items-center justify-center w-full min-h-[250px] transition-all bg-[#B8C9D6]"
+      className="relative flex flex-col items-center justify-center w-full min-h-[250px] transition-all bg-blue-900/20"
       onPointerDown={onActivate}
       onPointerUp={onDesactivate}
       onPointerEnter={onActivate}

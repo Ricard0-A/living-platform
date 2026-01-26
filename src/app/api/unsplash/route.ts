@@ -1,16 +1,21 @@
-import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const url = "https://api.unsplash.com/search/photos?page=1&query=";
-  const query = req.nextUrl.searchParams.get("query") || "apartment"; // buscamos el parametro mas importante = Query
-  // Ahora sip, call a la API
-  // encodeURIComponent para evitar caracteres raros de los usuarios en la URL
+  // query de búsqueda (apartments por defecto)
+  const query = req.nextUrl.searchParams.get("query") || "apartment";
+
+  // página (para traer más resultados)
+  const page = req.nextUrl.searchParams.get("page") || "1";
+
+  // cuántas imágenes traer
+  const perPage = req.nextUrl.searchParams.get("per_page") || "10";
+
   try {
     const res = await fetch(
-      `${url}${encodeURIComponent(query)}`, // 2 Argumentos de Fetch
+      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+        query
+      )}&page=${page}&per_page=${perPage}`,
       {
-        // headers : { bearer : xxxxxxx}
         headers: {
           Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY!}`,
         },
@@ -18,23 +23,20 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    if (!res) {
-      return NextResponse.json({ error: "API error" }, { status: 500 });
-    }
     if (!res.ok) {
       return NextResponse.json(
-        { error: `Error en la API Unsplash OAuth ${res.status}` },
+        { error: `Unsplash error ${res.status}` },
         { status: res.status }
       );
     }
 
-    const data = await res.json(); // Si existe lo convertimos a json para leerlo en el frontend
+    const data = await res.json();
 
-    return NextResponse.json(data, { status: 200 }); // Otra vez convertimos a json
-    // en respuesta para darselo al frontend como respuesta HTTP
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error interno del backend Unsplash");
-    }
+    return NextResponse.json(
+      { error: "Error interno del servidor" },
+      { status: 500 }
+    );
   }
 }

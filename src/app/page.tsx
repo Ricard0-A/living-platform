@@ -17,14 +17,14 @@ export default function Home() {
   return (
     <>
       <div
-        className="h-100 w-full mt-[-5rem] overflow-hidden md:h-screen"
+        className="h-150 w-full mt-[-5rem] overflow-hidden md:h-screen"
         style={{
           backgroundImage: "url(/homes/uk-home-opacity-50.png)",
           backgroundPosition: "center",
         }}
       >  
         {/* Main Navigation */}
-        <section className="w-full mt-60">
+        <section className="w-full mt-60 ">
           {/* Main Title */}
           <div className="
             flex justify-center w-full mt-18 ps-5 text-gray-100">

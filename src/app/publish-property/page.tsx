@@ -29,6 +29,7 @@ export default function CreatePropertyForm() {
 
   const [unsplashImages, setUnsplashImages] = useState<UnsplashPhoto[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
 
   // ==============================
   // Fetch Unsplash images
@@ -36,10 +37,18 @@ export default function CreatePropertyForm() {
   const fetchImages = async () => {
     setImagesLoading(true);
 
-    const res = await fetch("/api/unsplash?query=apartment");
+    const res = await fetch(
+      `/api/unsplash?query=apartment&page=${page}&per_page=10`
+    );
+
     const data = await res.json();
 
-    setUnsplashImages(data.results);
+    // ✔ append images
+    setUnsplashImages((prev) => [...prev, ...data.results]);
+
+    // ✔ next page
+    setPage((prev) => prev + 1);
+
     setImagesLoading(false);
   };
 
@@ -75,9 +84,7 @@ export default function CreatePropertyForm() {
       main_image: selectedImages[0] || null,
     };
 
-    const { error } = await supabase
-      .from("properties")
-      .insert(payload);
+    const { error } = await supabase.from("properties").insert(payload);
 
     setLoading(false);
 
@@ -97,14 +104,15 @@ export default function CreatePropertyForm() {
     setSelectedImages([]);
     setUnsplashImages([]);
 
-    alert("Propiedad publicada con éxito 🚀");
+    alert("Property published successfully 🚀");
   };
 
-  if (!user) return <FullScreenLoader/>
+  if (!user) return <FullScreenLoader />;
 
   return (
     <div className="bg-[url('/dashboard/client-first-image.jpg')] relative bg-cover min-h-screen bg-slate-900 flex items-center justify-center p-6">
-      <div className="inset-0 bg-black/50 opacity-80 absolute " />
+      <div className="inset-0 bg-black/50 opacity-80 absolute" />
+
       <form
         onSubmit={handleSubmit}
         className="relative z-10 w-full max-w-3xl bg-white rounded-3xl shadow-xl p-8 space-y-8"
@@ -112,17 +120,17 @@ export default function CreatePropertyForm() {
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-slate-900">
-            Publicar propiedad
+            Publish Property
           </h1>
           <p className="text-slate-500">
-            Completa la información del departamento
+            Fill in the property details
           </p>
         </div>
 
         {/* Title */}
         <input
           type="text"
-          placeholder="Título del anuncio"
+          placeholder="Listing title"
           className="w-full border rounded-xl p-4"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -132,7 +140,7 @@ export default function CreatePropertyForm() {
         {/* Price */}
         <input
           type="number"
-          placeholder="Precio"
+          placeholder="Price"
           className="w-full border rounded-xl p-4"
           value={form.price}
           onChange={(e) => setForm({ ...form, price: e.target.value })}
@@ -150,7 +158,7 @@ export default function CreatePropertyForm() {
           >
             {[1, 2, 3, 4, 5].map((n) => (
               <option key={n} value={n}>
-                {n} dormitorios
+                {n} bedrooms
               </option>
             ))}
           </select>
@@ -164,7 +172,7 @@ export default function CreatePropertyForm() {
           >
             {[1, 2, 3].map((n) => (
               <option key={n} value={n}>
-                {n} baños
+                {n} bathrooms
               </option>
             ))}
           </select>
@@ -172,7 +180,7 @@ export default function CreatePropertyForm() {
 
         {/* Description */}
         <textarea
-          placeholder="Descripción"
+          placeholder="Description"
           className="w-full border rounded-xl p-4 min-h-[120px]"
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -186,7 +194,9 @@ export default function CreatePropertyForm() {
             onClick={fetchImages}
             className="mb-4 px-4 py-2 rounded-xl bg-slate-800 text-white hover:bg-slate-700"
           >
-            {imagesLoading ? "Cargando..." : "Buscar imágenes (Unsplash)"}
+            {imagesLoading
+              ? "Loading images..."
+              : "Search images (Unsplash)"}
           </button>
 
           <div className="grid grid-cols-3 gap-4">
@@ -216,7 +226,7 @@ export default function CreatePropertyForm() {
           disabled={loading}
           className="w-full py-4 rounded-xl bg-blue-900 text-white text-lg font-semibold hover:bg-blue-800"
         >
-          {loading ? "Publicando..." : "Publicar propiedad"}
+          {loading ? "Publishing..." : "Publish Property"}
         </button>
       </form>
     </div>

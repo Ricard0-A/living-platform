@@ -6,9 +6,11 @@ import Link from "next/link";
 // Replace tag Image
 import Image from "next/image";
 // Lucide React
-import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, X, Play} from "lucide-react";
 // Next Navigation
 import { usePathname } from "next/navigation";
+
+
 
 // import clsx from "clsx"; // Luego para condicionales en cadena
 
@@ -53,13 +55,14 @@ const Navbar = () => {
         {/* Main Navbar ( Top )  */}
         <div className="bg-gray-900 max-w-9xl px-5 flex items-center justify-between">
           {/* Main Language Box   */}
-          <div className="flex space-x-5 text-lg font-500 hover:text-gray-200">
+          <div className="flex items-center space-x-5 text-lg font-500 hover:text-gray-200">
             {/* Language  */}
             <div
-              className="cursor-pointer flex items-center gap-2"
+              className="cursor-pointer flex items-center h-9 gap-2 mb-2 px-5 bg-black rounded-1xl"
               onClick={() => setOpenLang(!openLang)}
             >
               <h2>Languages</h2>
+              <Play width={15} height={15}  color="white" fill="white"/> 
             </div>
             {/* Language Options ( ENG && ESP )  (Left side ) */}
             <div className="mt-2 left-0 flex space-x-4">
@@ -116,7 +119,7 @@ const Navbar = () => {
             >
               About us
             </Link>
-            <div className="font-bold px-4 p-2 bg-gray-500 text-green-200">
+            <div className="font-bold px-3 p-1 bg-white  text-black">
               Sign In
             </div>
           </div>
@@ -131,7 +134,7 @@ const Navbar = () => {
         >
           <div
             className={`hidden ${isHome ? "md:hidden" : "md:block"}
-                relative  w-25 h-16`}
+                relative ms-5 w-25 h-16`}
           >
             <Link href={`/`}>
               <Image fill alt="Logo Brand to Home" src={"/logo-brand-fixed.png"} />

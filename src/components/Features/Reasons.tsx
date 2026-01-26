@@ -22,7 +22,7 @@ const Features = () => {
   // 1- Unificar luego el title "What Make Us Different" y su contenido, es necesario hacerlo
 
   return (
-    <section className="mt-13  md:mt-20">
+    <section className="mt-40  md:mt-20">
       {/* Title */}
       <div className="flex justify-between items-center mb-12 md:justify-evenly md:mb-18 ">
         {/* Desktop Line  */}
@@ -37,7 +37,7 @@ const Features = () => {
           style={{
             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.25)",
           }}
-          className=" text-2xl font-bold text-[#112D6F] md:text-4xl"
+          className=" text-2xl  text-[#112D6F] md:text-3xl"
         >
           What Makes Us Different
         </h2>

@@ -20,8 +20,8 @@ const News = () => {
         <div
           className="
         flex justify-center  py-3 w-[50%] text-2xl
-        border-blue-900 bg-blue-500/20 border-2 border-solid
-         md:py-4 md:text-4xl
+        border-blue-900/80 bg-purple-900/20 border-2 border-solid
+         md:py-4 md:text-3xl
         "
         >
           <h2> Need Help ?</h2>

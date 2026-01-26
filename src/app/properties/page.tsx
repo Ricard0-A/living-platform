@@ -173,25 +173,25 @@ export const Properties = () => {
   };
 
   // Busqueda
-  const filterSearch = () => {
-    const cleanValue = writing.toLowerCase().replace(/\s/g, "");
-    const resolve = property?.filter(
-      (unit) =>
-        (unit.description ?? "")
-          .toLowerCase()
-          .replace(/\s/g, "")
-          .includes(cleanValue) // Comparacion
-    );
+ const filterSearch = () => {
+  const cleanValue = writing.toLowerCase().trim();
 
-    console.log("Esto viene de FilterSearch", resolve);
-    if (resolve) {
-      setGetSearch(resolve);
-      console.log(getSearch);
-    } else {
-      console.log("No hubo busqueda");
-      return [];
-    }
-  };
+  const resolve = property.filter((unit) => {
+    const searchableText = `
+      ${unit.title ?? ""}
+      ${unit.description ?? ""}
+      ${unit.price ?? ""}
+      ${unit.bedrooms ?? ""}
+      ${unit.bathrooms ?? ""}
+    `
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+    return searchableText.includes(cleanValue);
+  });
+
+  setGetSearch(resolve);
+};
 
   // Evento cada vez que escribo
   const searching = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,64 +208,100 @@ export const Properties = () => {
 
   // JSX para mostrar contenido de busqueda / Parametro Dinamico
   const renderCards = (data: ApartmentProperty[]) => {
-  return data.map((unit, index) => (
-    <Link
-      key={unit.id}
-      href={`/properties/${unit.id}`}
-      className="block"
-    >
-      <article
-        className="
-          bg-white rounded-xl py-4 shadow-sm
-          hover:shadow-md transition-shadow duration-300
-          cursor-pointer
-        "
-      >
-        {/* Imagen */}
-        <img
-          src={
-            unit.main_image ||
-            apartments[index]?.urls?.regular ||
-            "/placeholder.jpg"
-          }
-          alt={unit.title || "Property image"}
-          className="w-full h-48 px-2 object-cover"
-        />
+  return data.map((unit, index) => {
+    // BADGES RANDOM (solo visual)
+    const typeBadge = Math.random() > 0.5 ? "Apartment" : "Studio";
+    const statusBadge = Math.random() > 0.5 ? "Available" : "Rented";
+    const area = Math.floor(Math.random() * (160 - 30 + 1)) + 30;
 
-        {/* Contenido */}
-        <div className="p-4 space-y-5">
-          <h2 className="font-bold">
-            {unit.title || "Property"}
-          </h2>
+    return (
+      <Link key={unit.id} href={`/properties/${unit.id}`} className="block">
+        <article
+          className="
+            bg-white rounded-xl overflow-hidden
+            shadow-sm hover:shadow-md
+            transition-shadow duration-300
+            cursor-pointer
+          "
+        >
+          {/* Imagen + Badges */}
+          <div className="relative">
+            <img
+              src={
+                unit.main_image ||
+                apartments[index]?.urls?.regular ||
+                "/placeholder.jpg"
+              }
+              alt={unit.title || "Property image"}
+              className="w-full h-48 object-cover"
+            />
 
-          {/* Features */}
-          <div className="text-sm flex gap-8">
-            <div className="flex gap-1">
-              <Bath />
-              <span>{unit.bathrooms ?? 1}</span>
-              <span>Baths</span>
-            </div>
-            <div className="flex gap-1">
-              <BedSingle />
-              <span>{unit.bedrooms ?? 1}</span>
-              <span>Beds</span>
-            </div>
-          </div>
+            {/* Badge LEFT */}
+            <span
+              className="
+                absolute top-3 left-3
+                bg-blue-600 text-white
+                text-xs font-semibold
+                px-3 py-1 rounded-full
+              "
+            >
+              {typeBadge}
+            </span>
 
-          {/* Precio */}
-          <div className="flex justify-between items-center">
-            <p className="text-blue-800 font-bold">
-              £ {unit.price?.toLocaleString()}
-            </p>
-            <span className="text-sm text-blue-600">
-              View Details →
+            {/* Badge RIGHT */}
+            <span
+              className={`
+                absolute top-3 right-3
+                text-white text-xs font-semibold
+                px-3 py-1 rounded-full
+                ${
+                  statusBadge === "Available"
+                    ? "bg-green-600"
+                    : "bg-red-600"
+                }
+              `}
+            >
+              {statusBadge}
             </span>
           </div>
-        </div>
-      </article>
-    </Link>
-  ));
-};
+
+          {/* Contenido */}
+          <div className="p-4 space-y-5">
+            <h2 className="font-bold">
+              {unit.title || "Property"}
+            </h2>
+
+            {/* Features */}
+            <div className="text-sm flex gap-8">
+              <div className="flex gap-1 items-center">
+                <Bath size={16} />
+                <span>{unit.bathrooms ?? 1} Baths</span>
+              </div>
+              <div className="flex gap-1 items-center">
+                <BedSingle size={16} />
+                <span>{unit.bedrooms ?? 1} Beds</span>
+              </div>
+              <div className="flex gap-1 items-center">
+                <Landmark size={16} />
+                <span>{area} m²</span>
+              </div>
+            </div>
+
+            {/* Precio */}
+            <div className="flex justify-between items-center">
+              <p className="text-blue-800 font-bold">
+                £ {unit.price?.toLocaleString()}
+              </p>
+              <span className="text-sm text-blue-600">
+                View Details →
+              </span>
+            </div>
+          </div>
+        </article>
+      </Link>
+      );
+    });
+  };
 
 
   // =========================================================================================================
@@ -310,7 +346,7 @@ export const Properties = () => {
   return (
     <section className="h-full w-full">
       {/* Buy / Sell ( Solo desktop )*/}
-      <div className="hidden mt-10 mx-3 pb-2 md:flex ">
+      <div className="hidden mt-10 ms-6  md:flex ">
         <div
           className="
           transition-colors ease-in-out duration-250
@@ -337,7 +373,7 @@ export const Properties = () => {
       <div className="flex items-center mx-3 gap-2">
         {/* Fondo GLOW para Barra de busqueda ( Left Children )*/}
         <div
-          className={`hidden md:block md:w-[55%] p-3 transition-all duration-500 ease-in-out 
+          className={`hidden md:block md:w-[55%] ps-3 pt-1  transition-all duration-500 ease-in-out 
             ${
               isFocused
                 ? "h-40 shadow-[0_0_12px_3px_#7c90e5]"
@@ -382,7 +418,7 @@ export const Properties = () => {
       {/* END  */}
 
       {/* ACA Sort By etc*/}
-      <div className="mt-8 mx-3 space-y-3 p-2 rounded-md md:flex md:justify-between">
+      <div className="mt-4 ms-6 space-y-3 rounded-md md:flex md:justify-between">
         {/* Header info */}
         <div>
           <span className="font-bold text-blue-900">1 - 20 of 3500</span>
@@ -405,8 +441,8 @@ export const Properties = () => {
       {/* GRIDS  */}
       <div
         className="
-        grid grid-cols-1 md:grid-cols-3 
-        mt-5 h-100  bg-amber-300
+        grid grid-cols-1 md:grid-cols-4 gap-5 
+        mt-4 h-100 mx-5
       "
       >
         {content}

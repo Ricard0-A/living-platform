@@ -78,7 +78,7 @@ const Login = () => {
 
                 {/* Texto */}
                 <div className="flex flex-col mt-4 ms-20 gap-14">
-                    <h1 className="font-serif text-shadow-2xs text-center">
+                    <h1 className=" text-shadow-2xs text-center">
                         Make the right move
                     </h1>
                     <h1 className="font-serif text-shadow-2xs">

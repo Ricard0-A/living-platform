@@ -87,7 +87,7 @@ const Roles = () => {
           style={{
             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.25)",
           }}
-          className="text-2xl font-bold text-[#112D6F] md:text-4xl"
+          className="text-2xl  text-[#112D6F] md:text-4xl"
         >
           Define Your Role
         </h2>
