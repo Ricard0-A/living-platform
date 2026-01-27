@@ -6,17 +6,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
-
 // Flujo 
 
 // Usuario escribe email/password
-// → Supabase autentica
-// → Supabase guarda sesión (localStorage)
-// → AuthListener detecta sesión
-// → AuthListener llama fetchUser() ( Fetchuser guarda user en Store )
-// → user se guarda en Zustand
-// → ClientNavbar reacciona al rol
-// → Redirigimos a /account/dashboard
+// - Supabase autentica
+// - Supabase guarda sesión (localStorage)
+// - AuthListener detecta sesión
+// - AuthListener llama fetchUser() ( Fetchuser guarda user en Store )
+// - user se guarda en Zustand
+// - ClientNavbar reacciona al rol
+// - Redirigimos a /account/dashboard
 
 const Login = () => {
 
@@ -66,7 +65,7 @@ const Login = () => {
         <section className={`${styles.loginSection}`}>
 
             {/* Texto llamativo ( Desktop ) */}
-            <div className="hidden md:block pb-4 text-gray-100 text-4xl ">
+            <div className="hidden md:block mb-65 text-gray-100 text-4xl ">
                 {/* Logo Desktop */}
                 <div className="hidden md:flex justify-center">
                     <Image  
@@ -77,11 +76,11 @@ const Login = () => {
                 </div>
 
                 {/* Texto */}
-                <div className="flex flex-col mt-4 ms-20 gap-14">
+                <div className="flex flex-col mt-5 ms-20 gap-11">
                     <h1 className=" text-shadow-2xs text-center">
                         Make the right move
                     </h1>
-                    <h1 className="font-serif text-shadow-2xs">
+                    <h1 className="text-shadow-2xs">
                         Start living like you deserve
                     </h1>
                 </div>
