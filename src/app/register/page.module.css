@@ -9,7 +9,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.16); /* El ultimo valor decide opacidad */
+  background-color: rgba(0, 0, 0, 0.30); /* El ultimo valor decide opacidad */
   z-index: 0; 
 }
 
@@ -41,7 +41,8 @@
   .registerSection {
     display: flex;
     justify-content: space-around;
-    background-image: url("/login/background-login.jpg");
+    align-items: center;
+    background-image: url("/login/background-london.jpg");
     background-size: cover;
     background-position: center;
   }

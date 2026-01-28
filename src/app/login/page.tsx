@@ -5,6 +5,7 @@ import styles from "@/app/login/page.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 // Flujo 
 
@@ -161,9 +162,11 @@ const Login = () => {
                 <div className="flex flex-col gap-4" style={borderTest}>
                     <h2>
                         New over here?{" "}
-                        <strong className="text-blue-800">
-                            Create an account
-                        </strong>
+                        <Link href={"/register"}>
+                            <strong className="text-blue-800">
+                                Create an account
+                            </strong>
+                        </Link>
                     </h2>
 
                     <p className="text-sm">

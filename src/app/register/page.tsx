@@ -10,6 +10,7 @@ import styles from "@/app/register/page.module.css";
 import { supabase } from "@/lib/supabaseClient";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const Register = () => {
   // Similar a cuando validamos objetos en typescript con type
@@ -98,7 +99,7 @@ const Register = () => {
   return (
     <section className={`${styles.registerSection}`}>
       {/* Texto llamativo ( Desktop ) */}
-      <div className="hidden md:block pb-4 text-gray-100 text-4xl ">
+      <div className="hidden md:block mb-65 pb-4 text-gray-100 text-4xl ">
         {/* Logo Desktop */}
         <div className="hidden md:flex justify-center">
           <Image
@@ -110,13 +111,13 @@ const Register = () => {
           />
         </div>
         {/* Texto  */}
-        <div className="flex flex-col mt-4 ms-20 gap-14">
-          <p className="font-serif text-shadow-2xs text-center">
+        <div className="flex flex-col mt-4 ms-20 gap-11">
+          <h1 className="text-shadow-2xs text-center">
             Make the right move
-          </p>
-          <p className="font-serif text-shadow-2xs">
+          </h1>
+          <h1 className="text-shadow-2xs">
             Start living like you deserve
-          </p>
+          </h1>
         </div>
       </div>
 
@@ -199,7 +200,9 @@ const Register = () => {
         <div className="flex flex-col gap-4 p-3 border-2 border-solid border-gray-300">
           <h2>
             Already have an account?{" "}
-            <strong className="ps-2 text-blue-800"> Sign In</strong>
+            <Link href="/login">
+              <strong className="ps-2 text-blue-800"> Sign In</strong>
+            </Link>
           </h2>
           <p>
             By signing in, you accept our
