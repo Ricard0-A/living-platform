@@ -1,11 +1,12 @@
 "use client";
 
 import useUserStore from "@/app/context/useUserStore";
+import FullScreenLoader from "../FullScreenLoader";
 
 export default function MainDashboard() {
   const { user } = useUserStore();
-
-  if (!user) return null;
+  // Si no existe usuario en la store por ejemplo gracias a un logout, que hacemos? 
+  if (!user) return <FullScreenLoader/>
 
   return (
     <main className="min-h-screen bg-black text-white px-6 py-10">
